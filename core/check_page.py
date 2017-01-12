@@ -1,24 +1,15 @@
 # Import python modules
-from glob import glob
 
-# Import pywikibot
-import pywikibot
-from pywikibot import pagegenerators
 
 # Import core modules
-from core import review
 from core import config
 
-algorithms = glob("core/algorithms/*.py")
-#print(algorithms)
-
-i = 0
-for algorithm in algorithms:
-	algorithms[i] = algorithm.replace(".py", "").replace("core/algorithms/", "")
-	print(algorithm)
-	
-
-def run(page):
-	pass
-	#print(algorithms)
-
+def run(text, page, algorithms):
+	edit_comments = []
+	for algorithm in algorithms:
+		algorithm.__init__()
+		data = algorithm.run(text, page)
+		if data[1] == 1:
+			edit_comments.append(algorithm.comments[config.lang]+"0")
+		elif data[1] > 1:
+			edit_comments.append(algorithm.comments[config.lang]+"1")

@@ -3,10 +3,6 @@ import difflib
 def show_diff(oldtext, text):
 	sm= difflib.SequenceMatcher(None, oldtext, text)
 	high_light(sm)
-	accept = input("do you agree these changes? [Y/N] ")
-	if accept == "y" or accept == "yes" or accept == "Y" or accept == "YES":
-		return True
-	return False
 
 def high_light(seqm):
 	green= '\033[32m'
@@ -32,10 +28,6 @@ def high_light(seqm):
 def show_diffl(oldtext, text):
 	sm= difflib.SequenceMatcher(None, oldtext, text)
 	high_light2(sm)
-	accept = input("do you agree these changes? [Y/N] ")
-	if accept == "y" or accept == "yes" or accept == "Y" or accept == "YES":
-		return True
-	return False
 
 def high_light2(seqm):
 	green= '\033[32m'

@@ -4,17 +4,18 @@ from core import config
 
 time = datetime.datetime.now()
 logfilename = str(time)
-logfile = open('core/log/'+logfilename+'.log', 'a')
+if config.log == True:
+	logfile = open('core/log/'+logfilename+'.log', 'a')
 
 def printlog(*log):
 		time = datetime.datetime.now()
-		line = str(time)+' '+str(log[0])+'\n\n'
+		line = str(time)+' '+str(log[0])
 		if config.log == True:
-			logfile.write(line)
-		print(time,str(log[0])+'\n')
+			logfile.write(line+"\n")
+		print(time,str(log[0]))
 
 def log(*log):
 	if config.log == True:
 		time = datetime.datetime.now()
-		line = str(time)+' '+str(log[0])+'\n\n'
-		logfile.write(line)
+		line = str(time)+' '+str(log[0])
+		logfile.write(line+"\n")

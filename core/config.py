@@ -2,7 +2,7 @@
 lang = "fi"
 
 # Enable log
-log = False
+log = True
 
 # Review mode
 review = True

@@ -1,7 +1,0 @@
-#LWP-Cookies-2.0
-Set-Cookie3: centralauth_Token=15044b6e97bc2cf6fd5f53ba31d0ba41; path="/"; domain=".wikipedia.org"; path_spec; domain_dot; secure; expires="2018-01-11 17:15:28Z"; httponly=None; version=0
-Set-Cookie3: centralauth_User=4shadowwBOT; path="/"; domain=".wikipedia.org"; path_spec; domain_dot; secure; expires="2018-01-11 17:15:28Z"; httponly=None; version=0
-Set-Cookie3: forceHTTPS=true; path="/"; domain=".wikipedia.org"; path_spec; domain_dot; expires="2017-02-10 17:15:28Z"; httponly=None; version=0
-Set-Cookie3: WMF-Last-Access="11-Jan-2017"; path="/"; domain="test.wikipedia.org"; path_spec; secure; expires="2017-02-12 12:00:00Z"; HttpOnly=None; version=0
-Set-Cookie3: testwikiUserID=33691; path="/"; domain="test.wikipedia.org"; path_spec; secure; expires="2018-01-11 17:15:28Z"; httponly=None; version=0
-Set-Cookie3: testwikiUserName=4shadowwBOT; path="/"; domain="test.wikipedia.org"; path_spec; secure; expires="2018-01-11 17:15:28Z"; httponly=None; version=0

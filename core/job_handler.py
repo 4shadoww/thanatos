@@ -1,9 +1,5 @@
 # Import python modules
 
-# Import pywikibot
-import pywikibot
-from pywikibot import pagegenerators
-
 # Import core modules
 from core import check_page
 from core.algorithm_loader import *
@@ -11,6 +7,7 @@ from core import config
 from core import adiffer
 from core import colors
 from core.log import *
+from core import wikipedia_worker
 
 def check_pages(pages):
 	algorithms = load_algorithms()
@@ -19,17 +16,11 @@ def check_pages(pages):
 		if page.isspace():
 			continue
 
-		try:
-			site = pywikibot.Site()
-			wpage = pywikibot.Page(site, page)
-			text = str(wpage.text)
-			printlog("checking: "+str(wpage))
-			data = check_page.run(text, page, algorithms)
+		wikidata = wikipedia_worker.loadpage(page)
+		printlog("checking: "+str(wikidata[1]))
+		data = check_page.run(wikidata[2], page, algorithms)
 
-		except pywikibot.exceptions.InvalidTitle:
-			continue
-
-		save_page(wpage, text, data[0], data[1])
+		save_page(wikidata[1], wikidata[2], data[0], data[1])
 
 
 def save_page(wpage, text, newtext, comments):

@@ -1,3 +1,4 @@
+from core.algcore import *
 
 class Algorithm:
 	notzeroedit = 1
@@ -11,14 +12,15 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, text)
+	def run(self, text, article):
 		errorlist = re.findall(r"\<.*?\>", text)
-
 		for item in errorlist:
-			if 'center' in item and len(item) <= 11 and '<!--' not in item and '>' in item:
+			if istag("center", item):
 				if '/' in item and item != '</center>':
 					text = text.replace(item, '</center>')
 					self.error_count += 1
 				elif '/' not in item and item != '<center>':
 					text = text.replace(item, '<center>')
 					self.error_count += 1
+
+		return text, self.error_count

@@ -19,8 +19,8 @@ def check_pages(pages):
 		wikidata = wikipedia_worker.loadpage(page)
 		printlog("checking: "+str(wikidata[1]))
 		data = check_page.run(wikidata[2], page, algorithms)
-
-		save_page(wikidata[1], wikidata[2], data[0], data[1])
+		if data[2] == False:
+			save_page(wikidata[1], wikidata[2], data[0], data[1])
 
 
 def save_page(wpage, text, newtext, comments):

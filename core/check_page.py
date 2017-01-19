@@ -6,6 +6,7 @@ from core import config
 from core import create_comment
 
 def run(text, page, algorithms):
+	zeroedit = True
 	edit_comments = []
 	for algorithm in algorithms:
 		algorithm.__init__()
@@ -17,6 +18,9 @@ def run(text, page, algorithms):
 
 		text = data[0]
 
+		if algorithm.notzeroedit == 1:
+			zeroedit = False
+
 	comments = create_comment.comment(edit_comments)
 
-	return text, comments
+	return text, comments, zeroedit

@@ -83,7 +83,7 @@ def handle_article(regs, article):
 	if replaced > 0:
 		for oldline, line in zip(oldtextlist, textlist):
 			if oldline != line:
-				adiffer.show_diffl(oldline, line)
+				adiffer.show_diff(oldline, line)
 
 		print()
 
@@ -99,4 +99,7 @@ def fixtypo(article):
 	regs = load_rules('core/lib/topy/retf-fi.txt')
 
 	text = handle_article(regs, article)
+	
+	if text == None:
+		text = article
 	return text

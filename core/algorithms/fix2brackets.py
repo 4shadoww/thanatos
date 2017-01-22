@@ -19,7 +19,7 @@ class Algorithm:
 
 		textlist = text.split('\n')
 		for l, line in enumerate(textlist):
-			matches = re.findall(r"\[.*\]", line)
+			matches = re.findall(r"\[.*?\]", line)
 			for match in matches:
 				if 'https://' in match or 'http://' in match:
 					if match.count("[") >= 2 or match.count("]") >= 2:

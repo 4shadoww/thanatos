@@ -23,13 +23,14 @@ class Algorithm:
 		getwordlc("wref"), getword("wref"),
 		getwordlc("mref"), getword("mref"),
 		getwordlc("sref"), getword("sref"),
-		getwordlc("nref"), getword("nref")],
-		getwordlc("commons"), getword("commons")
+		getwordlc("nref"), getword("nref"),
+		getwordlc("commons"), getword("commons"),
+		"\n", "\t", "\b", "\a", "\r", "|"]
 
 		pos = titlepos(getword("srcs"), text)
 		belows = text[pos:len(text)].split("\n")
 
-		refpos = None
+		refpos = len(text.split("\n"))-1
 
 		for l, line in  enumerate(belows[1:]):
 			if l == 2 and listfound == False:
@@ -39,11 +40,9 @@ class Algorithm:
 			if anymatch(srclist, line):
 				listfound = True
 
-			elif zeromatch(srclist, line) and listfound and zeromatch(srclist, belows[l+1]):
-				print(l+1)
+			elif zeromatch(srclist, line) and line != "" and listfound and zeromatch(srclist, belows[l+1]):
 				refpos = len(text.split("\b"))-len(belows)+l
 				break
-
 		if refpos != None and listfound == False:
 			self.error_count += 1
 			text = text.split("\n")
@@ -52,9 +51,16 @@ class Algorithm:
 			self.comments[config.lang+"0"] = self.comments[config.lang+"01"]
 
 		elif refpos != None and listfound:
+			nl0 = "\n"
+			nl1 = "\n"
 			self.error_count += 1
 			text = text.split("\n")
-			text[refpos] = "\n==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}\n"+text[refpos]
+			if text[refpos-1] == "":
+				nl0 = ""
+			if text[refpos] != "":
+				nl1 += "\n"
+
+			text[refpos] = nl0+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1+text[refpos]
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"00"]
 
@@ -66,12 +72,7 @@ class Algorithm:
 
 		for l, line in enumerate(text.split("\n")):
 
-			if titlein(getword("li"), line):
-				method = 1
-				targetline = l
-				break
-
-			elif titlein(getword("exl"), line):
+			if titlein(getword("exl"), line):
 				method = 1
 				targetline = l
 				break
@@ -81,14 +82,28 @@ class Algorithm:
 			nono = ["{{", getwordc("cat"),
 			getwordlcc("cat")]
 
+			unwanted = ["{{"+getword("commons"), "{{"+getwordlc("commons"), "*", "#",
+			"<ref>", "</ref>", "\n", "\t", "\b", "\a", "\r"]
+
 			text = text.split("\n")
 			for l, line in reversed(list(enumerate(text))):
-				if zeromatch(nono, line) and zeromatch(nono, text[l-1]):
-					pos = l
+				print("loop")
+				if anymatch(unwanted, line):
+					if l+1 != len(text):
+						pos = l+1
+					else:
+						pos = l
+					break
+
+				elif zeromatch(nono, line) and zeromatch(nono, text[l-1]) and line != "":
+					if l+1 != len(text):
+						pos = l+1
+					else:
+						pos = l
 					break
 
 			if pos != None:
-				text[pos] = "\n=="+getword("srcs")+"==\n{{"+getword("refs")+"}}\n"+text[pos]
+				text[pos] = text[pos]+"\n\n=="+getword("srcs")+"==\n{{"+getword("refs")+"}}\n"
 
 			text = '\n'.join(text)
 			self.error_count += 1

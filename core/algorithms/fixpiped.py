@@ -31,7 +31,7 @@ class Algorithm:
 				if fixeditem != None:
 					self.error_count += 1
 					originalitem = originalitem.replace('_', ' ')
-					printlog('fixpiped invalid links found: '+article+'\n'+originalitem+'] --> '+fixeditem+']')
+					log('fixpiped invalid links found: '+article+'\n'+originalitem+'] --> '+fixeditem+']')
 					text = text.replace(str(originalitem), str(fixeditem))
 
 		return text, self.error_count

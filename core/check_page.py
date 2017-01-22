@@ -11,9 +11,12 @@ def run(text, page, algorithms):
 	for algorithm in algorithms:
 		algorithm.__init__()
 		data = algorithm.run(text, page)
-		if data[1] == 1:
+		if data[1] == 1 and algorithm.comments[config.lang+"0"] not in edit_comments:
+
 			edit_comments.append(algorithm.comments[config.lang+"0"])
-		elif data[1] > 1:
+
+		elif data[1] > 1 and algorithm.comments[config.lang+"1"] not in edit_comments:
+			
 			edit_comments.append(algorithm.comments[config.lang+"1"])
 
 		text = data[0]

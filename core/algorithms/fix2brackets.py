@@ -17,27 +17,15 @@ class Algorithm:
 	def run(self, text, article):
 		nono = [getwordc("file"), getwordc("file", lang="en"), getwordc("img"), getwordc("img", lang="en")]
 
-		twobrackets = re.findall(r"\[(.*?)\]", text)
-
-		for item in twobrackets:
-			location = text.index(item)
-			if '[' in item[0:2]:
-				if 'https://' in item[0:10] or 'http://' in item[0:10]:
-					if andop(nono, item) == False:
+		textlist = text.split('\n')
+		for l, line in enumerate(textlist):
+			matches = re.findall(r"\[.*\]", line)
+			for match in matches:
+				if 'https://' in match or 'http://' in match:
+					if match.count("[") >= 2 or match.count("]") >= 2:
+						newmatch = "["+match.replace("[", "").replace("]", "")+"]"
+						textlist[l] = textlist[l].replace(match, newmatch)
 						self.error_count += 1
-						location = text.index(item)+len(item)
-						if ']' in text[location+1:location+2]:
 
-							olditem = '['+str(item)+']]'
-							item = item.replace('[', '')
-							item = '['+item+']'
-							log('fix2brackets: '+article+'\n'+olditem+' --> '+item)
-							text = text.replace(olditem, str(item))
-						else:
-							olditem = '['+str(item)+']'
-							item = item.replace('[', '')
-							item = '['+item+']'
-							log('fix2brackets: '+article+'\n'+olditem+' --> '+item)
-							text = text.replace(olditem, str(item))
-
+		text = '\n'.join(textlist)
 		return text, self.error_count

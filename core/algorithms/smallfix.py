@@ -5,8 +5,8 @@ class Algorithm:
 	error_count = 0
 
 	comments = {
-		"fi0": u"korjasi center tagin syntaksin",
-		"fi1": u"korjasi center tagien syntaksit",
+		"fi0": u"korjasi small tagin syntaksin",
+		"fi1": u"korjasi small tagien syntaksit",
 	}
 
 	def __init__(self):
@@ -15,12 +15,12 @@ class Algorithm:
 	def run(self, text, article):
 		errorlist = re.findall(r"\<.*?\>", text)
 		for item in errorlist:
-			if istag("center", item):
-				if '/' in item and item != '</center>':
-					text = text.replace(item, '</center>')
+			if istag("small", item):
+				if '/' in item and item != '</small>':
+					text = text.replace(item, '</small>')
 					self.error_count += 1
-				elif '/' not in item and item != '<center>':
-					text = text.replace(item, '<center>')
+				elif '/' not in item and item != '<small>':
+					text = text.replace(item, '<small>')
 					self.error_count += 1
 
 		return text, self.error_count

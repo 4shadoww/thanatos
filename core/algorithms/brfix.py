@@ -14,7 +14,7 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		errorlist = re.findall(r"\<.*?\>", text)
+		errorlist = re.findall(r"\<.*\>", text)
 		nono = ['abbr', 'wbr', 'ref', '<!--']
 		for item in errorlist:
 			if andop(nono, item) == False and istag("br", item):

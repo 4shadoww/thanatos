@@ -4,6 +4,7 @@
 import sys
 import argparse
 from glob import glob
+import os
 
 # Append lib path
 sys.path.append("core/lib")
@@ -44,4 +45,6 @@ if __name__ == "__main__":
 	if args.f == None:
 		parser.print_help()
 		sys.exit(0)
+
+	os.remove("throttle.ctrl")
 	main(args.f)

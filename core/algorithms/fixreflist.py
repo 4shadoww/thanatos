@@ -89,17 +89,11 @@ class Algorithm:
 			for l, line in reversed(list(enumerate(text))):
 				print("loop")
 				if anymatch(unwanted, line):
-					if l+1 != len(text):
-						pos = l+1
-					else:
-						pos = l
+					pos = l
 					break
 
 				elif zeromatch(nono, line) and zeromatch(nono, text[l-1]) and line != "":
-					if l+1 != len(text):
-						pos = l+1
-					else:
-						pos = l
+					pos = l
 					break
 
 			if pos != None:
@@ -125,7 +119,7 @@ class Algorithm:
 		nono = ["<references/>", "<references />", 
 		"{{"+getword("refs"), "{{"+getwordlc("refs")]
 
-		if "<ref>" not in text:
+		if "<ref>" not in text and "</ref>" not in text:
 			return text, self.error_count
 
 		if andop(nono, text):

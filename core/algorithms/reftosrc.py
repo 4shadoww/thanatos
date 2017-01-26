@@ -8,7 +8,7 @@ class Algorithm:
 	comments = {
 		"fi0": u"",
 		"fi00": u"siirsi Viitteet osion oikealle tasolle",
-		"fi01": u"muokkasi ==Vitteet== osion muotoon ==Lähteet==",
+		"fi01": u"muutti ==Vitteet== osion muotoon ==Lähteet==",
 	}
 
 	def __init__(self):

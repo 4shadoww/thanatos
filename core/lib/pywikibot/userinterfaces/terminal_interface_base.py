@@ -137,6 +137,7 @@ class UI:
             self.printNonColorized(text, targetStream)
 
     def output(self, text, toStdout=False, targetStream=None):
+        return
         """
         Output text to a stream.
 

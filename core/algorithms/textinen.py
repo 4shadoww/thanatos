@@ -14,10 +14,10 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		self.error_count += text.count("Category:")
-		self.error_count += text.count("File:")
-		self.error_count += text.count("Image:")
+		self.error_count += text.count("[[Category:")
+		self.error_count += text.count("[[File:")
+		self.error_count += text.count("[[Image:")
 
-		text = text.replace("Category:", getwordc("cat", lang=config.lang)).replace("File:", getwordc("file", lang=config.lang)).replace("Image:", getwordc("img", lang=config.lang))
+		text = text.replace("[[Category:", "[["+getwordc("cat", lang=config.lang)).replace("[[File:", "[["+getwordc("file", lang=config.lang)).replace("[[Image:", "[["+getwordc("img", lang=config.lang))
 
 		return text, self.error_count

@@ -45,6 +45,8 @@ if __name__ == "__main__":
 	if args.f == None:
 		parser.print_help()
 		sys.exit(0)
-
-	os.remove("throttle.ctrl")
+	try:
+		os.remove("throttle.ctrl")
+	except:
+		pass
 	main(args.f)

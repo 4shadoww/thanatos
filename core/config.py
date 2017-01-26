@@ -17,7 +17,7 @@ algorithms = ["ucc", "brfix",
 	"typofix", "reftosrc",
     "fix2brackets", "fixblinks",
 	"fixpiped", "fixreflinks",
-	"fixreflist", "replacesrc",]
+	"fixreflist", "replacesrc", "refstemp"]
 
 # Ignore algorithms
-ignore = []
+ignore = ["typofix", "ucc"]

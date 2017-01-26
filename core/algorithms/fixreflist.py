@@ -87,7 +87,6 @@ class Algorithm:
 
 			text = text.split("\n")
 			for l, line in reversed(list(enumerate(text))):
-				print("loop")
 				if anymatch(unwanted, line):
 					pos = l
 					break
@@ -114,21 +113,31 @@ class Algorithm:
 
 		return text
 
+	def addrefs2(self, text, article):
+		line = titleline(getword("refs"), text)
+		text = text.split("\n")
+		text[line] = text[line]+"\n{{"+getword("refs")+"}}"
+		self.error_count += 1
+		self.comments[config.lang+"0"] = self.comments[config.lang+"01"]
+		text = '\n'.join(text)
+		return text
 
 	def run(self, text, article):
 		nono = ["<references/>", "<references />", 
-		"{{"+getword("refs"), "{{"+getwordlc("refs")]
+		"{{"+getword("refs"), "{{"+getwordlc("refs"), "{{reflist", "{{Reflist"]
 
 		if "<ref>" not in text and "</ref>" not in text:
 			return text, self.error_count
 
-		if andop(nono, text):
+		elif andop(nono, text):
 			return text, self.error_count
 
-		if titlein(getword("srcs"), text) and "{{"+getword("refs") not in text and "{{"+getwordlc("refs") not in text:
+		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and "{{"+getword("refs") not in text and "{{"+getwordlc("refs") not in text:
+			text = self.addrefs2(text, article)
+		elif titlein(getword("srcs"), text) and "{{"+getword("refs") not in text and "{{"+getwordlc("refs") not in text:
 			text = self.addrefs0(text, article)
 
-		if titlein(getword("srcs"), text) == False:
+		elif titlein(getword("srcs"), text) == False:
 			text = self.addrefs1(text, article)
 
 		return text, self.error_count

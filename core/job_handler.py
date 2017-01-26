@@ -10,6 +10,7 @@ from core.log import *
 from core import wikipedia_worker
 import threading, queue
 import webbrowser
+import pywikibot.exceptions
 
 class PageLoader(threading.Thread):
 	running = True
@@ -28,7 +29,7 @@ class PageLoader(threading.Thread):
 			if page.isspace():
 				continue
 			self.pageobjects.append(wikipedia_worker.loadpage(page))
-			if killer.kill == True:
+			if self.killer.kill == True:
 				return
 		self.running = False
 
@@ -42,7 +43,10 @@ class PageSaver(threading.Thread):
 		threading.Thread.__init__(self)
 
 	def run(self):
-		self.wpage.save(self.comments)
+		try:
+			self.wpage.save(self.comments)
+		except pywikibot.exceptions.EditConflict:
+			pass
 
 class Killer():
 	kill = False
@@ -88,7 +92,7 @@ def save_page(wpage, text, newtext, comments):
 		return
 
 	if comments == None:
-		comments = "Bot edit"
+		comments = "thanatos bot edit"
 
 	if newtext != text:
 		if config.review == True:

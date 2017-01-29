@@ -7,9 +7,10 @@ class Algorithm:
 
 	comments = {
 		"fi0": u"",
-		"fi00": u"lisäsi puuttuvan viitteet osion",
-		"fi01": u"lisäsi puuttuvan viitteet mallinen",
-		"fi02": u"lisäsi puuttuvan lähteet osion",
+		"fi00": u"lisäsi puuttuvan Viitteet osion",
+		"fi01": u"lisäsi puuttuvan Viitteet mallinen",
+		"fi02": u"lisäsi puuttuvan Lähteet osion",
+		"fi03": u"siirsi Viitteet osion oikeaan kohtaan",
 	}
 
 	def __init__(self):
@@ -65,6 +66,55 @@ class Algorithm:
 			self.comments[config.lang+"0"] = self.comments[config.lang+"00"]
 
 		return text
+
+	def findlist(self, text):
+		listfound = False
+
+		srclist = ["*", "{{IMDb-h", "#",
+		getwordlc("bref"), getword("bref"),
+		getwordlc("wref"), getword("wref"),
+		getwordlc("mref"), getword("mref"),
+		getwordlc("sref"), getword("sref"),
+		getwordlc("nref"), getword("nref"),
+		getwordlc("commons"), getword("commons"),
+		"\n", "\t", "\b", "\a", "\r", "|"]
+
+		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
+
+		pos = titlepos(getword("srcs"), text)
+		belows = text[pos:len(text)].split("\n")
+
+		refpos = len(text.split("\n"))-1
+
+		tries = 0
+
+		for l, line in  enumerate(belows[1:]):
+			if abandop(spaces, line):
+				tries =+ 1
+				print(tries)
+				print(line)
+				print("blank")
+			else:
+				tries = 0
+				print("reset")
+				print(line)
+
+			if l == 2 and listfound == False:
+				refpos = len(text.split("\n"))-len(belows)
+				break
+
+			if tries >= 2:
+				refpos = len(text.split("\b"))-len(belows)+l
+				break
+
+			if anymatch(srclist, line):
+				listfound = True
+
+			elif zeromatch(srclist, line) and line != "" and listfound and zeromatch(srclist, belows[l+1]):
+				refpos = len(text.split("\b"))-len(belows)+l
+				break
+
+		return refpos
 
 	def addrefs1(self, text, article):
 		method = 0
@@ -122,12 +172,44 @@ class Algorithm:
 		text = '\n'.join(text)
 		return text
 
+	def addrefs3(self, text, article):
+		text = text.split("\n")
+		reftype = "{{"+getword("refs")+"}}"
+		for l, line in enumerate(text):
+			if titlein(getword("refs"), line):
+				text.pop(l)
+				break
+		for l, line in enumerate(text):
+			if "{{"+getword("refs") in line or "{{"+getwordlc("refs") in line:
+				reftype = text[l]
+				text.pop(l)
+				break
+
+		refpos = self.findlist('\n'.join(text))
+
+		if refpos != None:
+			nl0 = "\n"
+			nl1 = "\n"
+			self.error_count += 1
+			if text[refpos-1] == "":
+				nl0 = ""
+			if text[refpos] != "":
+				nl1 += "\n"
+
+			text[refpos] = nl0+"==="+getword("refs")+"===\n"+reftype+nl1+text[refpos]
+			text = '\n'.join(text)
+			self.comments[config.lang+"0"] = self.comments[config.lang+"03"]
+		return text
+
 	def run(self, text, article):
 		nono = ["<references/>", "<references />", 
 		"{{"+getword("refs"), "{{"+getwordlc("refs"), "{{reflist", "{{Reflist"]
 
 		if "<ref>" not in text and "</ref>" not in text:
 			return text, self.error_count
+
+		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titleline(getword("refs"), text) < titleline(getword("srcs"), text):
+			text = self.text = self.addrefs3(text, article)
 
 		elif andop(nono, text):
 			return text, self.error_count

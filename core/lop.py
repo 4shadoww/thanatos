@@ -94,3 +94,10 @@ def anymatch(items, text):
 			return True
 
 	return False
+
+def abandop(items, match):
+	for item in items:
+		if item == match:
+			print(item+" = "+match)
+			return True
+	return False

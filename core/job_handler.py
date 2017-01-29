@@ -26,11 +26,11 @@ class PageLoader(threading.Thread):
 
 	def run(self):
 		for page in self.pages:
+			if self.killer.kill == True:
+				return
 			if page.isspace():
 				continue
 			self.pageobjects.append(wikipedia_worker.loadpage(page))
-			if self.killer.kill == True:
-				return
 		self.running = False
 
 class PageSaver(threading.Thread):
@@ -45,38 +45,39 @@ class PageSaver(threading.Thread):
 	def run(self):
 		try:
 			self.wpage.save(self.comments)
+			log("saved "+str(self.wpage))
 		except pywikibot.exceptions.EditConflict:
-			pass
+			log("edit conflict not saved "+str(self.wpage))
 
-class Killer():
+class Killer:
 	kill = False
-
 	def __init__(self):
 		self.kill = False
 
 def page_handler(algorithms, pageobjects, pageloader):
-	pagenum = 0
+	num = 0
 	while True:
-		for i in range(pagenum, len(pageobjects)):
-			printlog("checking: "+str(pageobjects[pagenum][1]))
-			data = check_page.run(pageobjects[pagenum][2], pageobjects[pagenum][3], algorithms)
+		try:
+			printlog("checking: "+str(pageobjects[num][1]))
+			data = check_page.run(pageobjects[num][2], pageobjects[num][3], algorithms)
 			if data[2] == False:
-				save_page(pageobjects[pagenum][1], pageobjects[pagenum][2], data[0], data[1])
-			pagenum += 1
-		if pageloader.running == False and pagenum == len(pageobjects)-1:
-			break
+				save_page(pageobjects[num][1], pageobjects[num][2], data[0], data[1])
 
+			if num == len(pageobjects)-1 and pageloader.running == False:
+				break
+
+			num += 1
+
+		except IndexError:
+			if num == len(pageobjects)-1 and pageloader.running == False:
+				break
 def check_pages(pages):
 	try:
-		killer = Killer()
-		killer.__init__()
-
 		algorithms = load_algorithms()
+		killer = Killer()
 		pageobjects = []
-		# Start pageloader thread
 		pageloader = PageLoader(pages, pageobjects, killer)
 		pageloader.start()
-
 		page_handler(algorithms, pageobjects, pageloader)
 
 		print("saving pages...")
@@ -90,7 +91,6 @@ def save_page(wpage, text, newtext, comments):
 	if text == '':
 		printlog("error: this page is empty or it doesn't exist")
 		return
-
 	if comments == None:
 		comments = "thanatos bot edit"
 

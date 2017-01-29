@@ -8,14 +8,22 @@ class Algorithm:
 	comments = {
 		"fi0": u"muutti {{viitteet}} mallinen muotoon {{Viitteet}}",
 		"fi1": u"muutti {{viitteet}} mallinen muotoon {{Viitteet}}",
+		"fi00": u"muutti {{viitteet}} mallinen muotoon {{Viitteet}}",
+		"fi01": u"muutti {{Viitteet|sarakkeet}} mallinen muotoon {{Viitteet}}",
 	}
 
 	def __init__(self):
 		self.error_count = 0
 
 	def run(self, text, article):
-		self.error_count += text.count("{{"+getwordlc("refs"))
+		if text.count("<ref/>") < 1 and "{{"+getwordlc("refs")+"|sarakkeet}}" in text and "{{"+getword("refs")+"|sarakkeet}}" in text:
+			self.error_count = 1
+			text = text.replace("{{"+getwordlc("refs")+"|sarakkeet}}", "{{"+getword("refs")+"}}")
+			text = text.replace("{{"+getword("refs")+"|sarakkeet}}", "{{"+getword("refs")+"}}")
+			comments["fi0"] = comments["f01"]
 
-		text = text.replace("{{"+getwordlc("refs"), "{{"+getword("refs"))
+		else:
+			self.error_count += text.count("{{"+getwordlc("refs"))
+			text = text.replace("{{"+getwordlc("refs"), "{{"+getword("refs"))
 
 		return text, self.error_count

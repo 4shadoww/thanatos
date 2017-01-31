@@ -2,7 +2,7 @@ import re
 from core.algcore import *
 
 class Algorithm:
-	notzeroedit = 1
+	zeroedit = False
 	error_count = 0
 
 	comments = {

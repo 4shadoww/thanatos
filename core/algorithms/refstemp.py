@@ -2,7 +2,7 @@ import re
 from core.algcore import *
 
 class Algorithm:
-	notzeroedit = 0
+	zeroedit = True
 	error_count = 0
 
 	comments = {
@@ -23,7 +23,9 @@ class Algorithm:
 			comments["fi0"] = comments["f01"]
 
 		else:
-			self.error_count += text.count("{{"+getwordlc("refs"))
-			text = text.replace("{{"+getwordlc("refs"), "{{"+getword("refs"))
+			self.error_count += text.count("{{"+getwordlc("refs")+"}}")
+			self.error_count += text.count("{{"+getwordlc("refs")+"|")
+			text = text.replace("{{"+getwordlc("refs")+"}}", "{{"+getword("refs")+"}}")
+			text = text.replace("{{"+getwordlc("refs")+"|", "{{"+getword("refs")+"|")
 
 		return text, self.error_count

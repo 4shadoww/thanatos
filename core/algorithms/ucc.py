@@ -4,7 +4,7 @@ import html
 from core import algcore
 
 class Algorithm:
-	notzeroedit = 1
+	zeroedit = False
 	error_count = 0
 	comments = {
 		"fi0": u"muunsi [[unicode|unicode-syntaksin]] unicode merkeiksi",

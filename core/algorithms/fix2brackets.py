@@ -1,7 +1,7 @@
 from core.algcore import *
 
 class Algorithm:
-	notzeroedit = 1
+	zeroedit = False
 	error_count = 0
 
 	comments = {
@@ -21,7 +21,7 @@ class Algorithm:
 		for l, line in enumerate(textlist):
 			matches = re.findall(r"\[.*?\]", line)
 			for match in matches:
-				if 'https://' in match or 'http://' in match:
+				if 'https://' in match and match.count("[") < 2 and "|" not in match or 'http://' in match and match.count("[") < 2 and "|" not in match:
 					if match.count("[") >= 2 or match.count("]") >= 2:
 						newmatch = "["+match.replace("[", "").replace("]", "")+"]"
 						textlist[l] = textlist[l].replace(match, newmatch)

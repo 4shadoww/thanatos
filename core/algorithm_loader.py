@@ -1,6 +1,5 @@
 # Import python modules
 import importlib
-from glob import glob
 from core import config
 
 # Import core modules

@@ -3,7 +3,7 @@ import re
 from topy import topy
 
 class Algorithm:
-	notzeroedit = 1
+	zeroedit = False
 	error_count = 0
 
 	comments = {

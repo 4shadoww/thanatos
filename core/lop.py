@@ -84,6 +84,7 @@ def titleline(title, text):
 def zeromatch(items, text):
 	for item in items:
 		if item in text:
+			print("match "+item+" "+text)
 			return False
 
 	return True
@@ -98,6 +99,5 @@ def anymatch(items, text):
 def abandop(items, match):
 	for item in items:
 		if item == match:
-			print(item+" = "+match)
 			return True
 	return False

@@ -1,7 +1,7 @@
 from core.algcore import *
 
 class Algorithm:
-	notzeroedit = 0
+	zeroedit = True
 	error_count = 0
 
 	comments = {

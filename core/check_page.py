@@ -18,10 +18,12 @@ def run(text, page, algorithms):
 		elif data[1] > 1 and algorithm.comments[config.lang+"1"] not in edit_comments:
 			
 			edit_comments.append(algorithm.comments[config.lang+"1"])
-		text = data[0]
 
-		if algorithm.notzeroedit == 1:
+
+		if algorithm.zeroedit == False and text != data[0]:
 			zeroedit = False
+
+		text = data[0]
 
 	comments = create_comment.comment(edit_comments)
 	return text, comments, zeroedit

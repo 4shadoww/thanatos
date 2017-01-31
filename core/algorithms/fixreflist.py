@@ -2,7 +2,7 @@ from core.algcore import *
 import re
 
 class Algorithm:
-	notzeroedit = 1
+	zeroedit = False
 	error_count = 0
 
 	comments = {
@@ -16,57 +16,6 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def addrefs0(self, text, article):
-		listfound = False
-
-		srclist = ["*", "{{IMDb-h", "#",
-		getwordlc("bref"), getword("bref"),
-		getwordlc("wref"), getword("wref"),
-		getwordlc("mref"), getword("mref"),
-		getwordlc("sref"), getword("sref"),
-		getwordlc("nref"), getword("nref"),
-		getwordlc("commons"), getword("commons"),
-		"\n", "\t", "\b", "\a", "\r", "|"]
-
-		pos = titlepos(getword("srcs"), text)
-		belows = text[pos:len(text)].split("\n")
-
-		refpos = len(text.split("\n"))-1
-
-		for l, line in  enumerate(belows[1:]):
-			if l == 2 and listfound == False:
-				refpos = len(text.split("\n"))-len(belows)
-				break
-			
-			if anymatch(srclist, line):
-				listfound = True
-
-			elif zeromatch(srclist, line) and line != "" and listfound and zeromatch(srclist, belows[l+1]):
-				refpos = len(text.split("\b"))-len(belows)+l
-				break
-		if refpos != None and listfound == False:
-			self.error_count += 1
-			text = text.split("\n")
-			text[refpos] = text[refpos]+"\n{{"+getword("refs")+"}}"
-			text = '\n'.join(text)
-			self.comments[config.lang+"0"] = self.comments[config.lang+"01"]
-
-		elif refpos != None and listfound:
-			nl0 = "\n"
-			nl1 = "\n"
-			self.error_count += 1
-			text = text.split("\n")
-			if text[refpos-1] == "":
-				nl0 = ""
-			if text[refpos] != "":
-				nl1 += "\n"
-
-			text[refpos] = nl0+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1+text[refpos]
-			text = '\n'.join(text)
-			self.comments[config.lang+"0"] = self.comments[config.lang+"00"]
-
-		return text
-
 	def findlist(self, text):
 		listfound = False
 
@@ -79,6 +28,8 @@ class Algorithm:
 		getwordlc("commons"), getword("commons"),
 		"\n", "\t", "\b", "\a", "\r", "|"]
 
+		nono = ["[["+getwordc("cat"),]
+
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
 		pos = titlepos(getword("srcs"), text)
@@ -90,31 +41,57 @@ class Algorithm:
 
 		for l, line in  enumerate(belows[1:]):
 			if abandop(spaces, line):
-				tries =+ 1
-				print(tries)
-				print(line)
-				print("blank")
+				tries += 1
+
 			else:
 				tries = 0
-				print("reset")
-				print(line)
 
 			if l == 2 and listfound == False:
 				refpos = len(text.split("\n"))-len(belows)
 				break
 
 			if tries >= 2:
-				refpos = len(text.split("\b"))-len(belows)+l
+				refpos = len(text.split("\n"))-len(belows)+l
 				break
 
 			if anymatch(srclist, line):
 				listfound = True
 
-			elif zeromatch(srclist, line) and line != "" and listfound and zeromatch(srclist, belows[l+1]):
-				refpos = len(text.split("\b"))-len(belows)+l
+			if anymatch(nono, line):
+				refpos = len(text.split("\n"))-len(belows)+l
 				break
 
-		return refpos
+			elif zeromatch(srclist, line) and line != "" and listfound and zeromatch(srclist, belows[l+1]):
+				refpos = len(text.split("\n"))-len(belows)+l
+				break
+
+		return refpos, listfound
+
+	def addrefs0(self, text, article):
+		feed = self.findlist(text)
+
+		if feed[0] != None and feed[1] == False:
+			self.error_count += 1
+			text = text.split("\n")
+			text[feed[0]] = text[feed[0]]+"\n{{"+getword("refs")+"}}"
+			text = '\n'.join(text)
+			self.comments[config.lang+"0"] = self.comments[config.lang+"01"]
+
+		elif feed[0] != None and feed[1]:
+			nl0 = "\n"
+			nl1 = "\n"
+			self.error_count += 1
+			text = text.split("\n")
+			if text[feed[0]-1] == "":
+				nl0 = ""
+			if text[feed[0]] != "":
+				nl1 += "\n"
+
+			text[feed[0]] = nl0+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1+text[feed[0]]
+			text = '\n'.join(text)
+			self.comments[config.lang+"0"] = self.comments[config.lang+"00"]
+
+		return text
 
 	def addrefs1(self, text, article):
 		method = 0
@@ -180,23 +157,23 @@ class Algorithm:
 				text.pop(l)
 				break
 		for l, line in enumerate(text):
-			if "{{"+getword("refs") in line or "{{"+getwordlc("refs") in line:
+			if "{{"+getword("refs") in line or "{{"+getwordlc("refs") in line or "<references" in line:
 				reftype = text[l]
 				text.pop(l)
 				break
 
-		refpos = self.findlist('\n'.join(text))
+		feed = self.findlist('\n'.join(text))
 
-		if refpos != None:
+		if feed[0] != None:
 			nl0 = "\n"
 			nl1 = "\n"
 			self.error_count += 1
-			if text[refpos-1] == "":
+			if text[feed[0]-1] == "":
 				nl0 = ""
-			if text[refpos] != "":
+			if text[feed[0]] != "":
 				nl1 += "\n"
 
-			text[refpos] = nl0+"==="+getword("refs")+"===\n"+reftype+nl1+text[refpos]
+			text[feed[0]] = nl0+"==="+getword("refs")+"===\n"+reftype+nl1+text[feed[0]]
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"03"]
 		return text
@@ -208,10 +185,10 @@ class Algorithm:
 		if "<ref>" not in text and "</ref>" not in text:
 			return text, self.error_count
 
-		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titleline(getword("refs"), text) < titleline(getword("srcs"), text):
+		if titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titleline(getword("refs"), text) < titleline(getword("srcs"), text):
 			text = self.text = self.addrefs3(text, article)
 
-		elif andop(nono, text):
+		if andop(nono, text):
 			return text, self.error_count
 
 		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and "{{"+getword("refs") not in text and "{{"+getwordlc("refs") not in text:

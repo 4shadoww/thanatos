@@ -14,6 +14,7 @@ fi = {
 	"exl": "Aiheesta muualla",
 	"li": "Kirjallisuutta",
 	"commons": "Commons",
+	"seealso": "Katso myös",
 }
 
 # English dictionary
@@ -25,4 +26,5 @@ en = {
 	"cat": "Category",
 	"exl": "External links",
 	"commons": "Commons",
+	"seealso": "See also",
 }

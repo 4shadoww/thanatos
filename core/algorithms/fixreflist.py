@@ -25,8 +25,7 @@ class Algorithm:
 		getwordlc("mref"), getword("mref"),
 		getwordlc("sref"), getword("sref"),
 		getwordlc("nref"), getword("nref"),
-		getwordlc("commons"), getword("commons"),
-		"\n", "\t", "\b", "\a", "\r", "|"]
+		getwordlc("commons"), getword("commons"),]
 
 		nono = ["[["+getwordc("cat"),]
 
@@ -35,10 +34,10 @@ class Algorithm:
 		pos = titlepos(getword("srcs"), text)
 		belows = text[pos:len(text)].split("\n")
 
-		refpos = len(text.split("\n"))-1
+		refpos = len(text.split("\n"))
 
 		tries = 0
-
+		lasttemp = False
 		for l, line in  enumerate(belows[1:]):
 			if abandop(spaces, line):
 				tries += 1
@@ -57,11 +56,23 @@ class Algorithm:
 			if anymatch(srclist, line):
 				listfound = True
 
+			if listfound and "|" in line and lasttemp:
+				continue
+
+			if anymatch(srclist, line) and "{{" in line:
+				lasttemp = True
+
+			if "}}" in line and lasttemp:
+				lasttemp = False
+				continue
+
 			if anymatch(nono, line):
 				refpos = len(text.split("\n"))-len(belows)+l
 				break
 
 			elif zeromatch(srclist, line) and line != "" and listfound and zeromatch(srclist, belows[l+1]):
+				print("s2")
+				print(line)
 				refpos = len(text.split("\n"))-len(belows)+l
 				break
 
@@ -157,7 +168,7 @@ class Algorithm:
 				text.pop(l)
 				break
 		for l, line in enumerate(text):
-			if "{{"+getword("refs") in line or "{{"+getwordlc("refs") in line or "<references" in line:
+			if "{{"+getword("refs") in line or "{{"+getwordlc("refs") in line or istag("references", line):
 				reftype = text[l]
 				text.pop(l)
 				break
@@ -170,10 +181,12 @@ class Algorithm:
 			self.error_count += 1
 			if text[feed[0]-1] == "":
 				nl0 = ""
+			if text[feed[0]-2] == "":
+				nl0 += "\n"
 			if text[feed[0]] != "":
 				nl1 += "\n"
 
-			text[feed[0]] = nl0+"==="+getword("refs")+"===\n"+reftype+nl1+text[feed[0]]
+			text[feed[0]] = text[feed[0]]+nl0+"==="+getword("refs")+"===\n"+reftype+nl1
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"03"]
 		return text
@@ -182,11 +195,11 @@ class Algorithm:
 		nono = ["<references/>", "<references />", 
 		"{{"+getword("refs"), "{{"+getwordlc("refs"), "{{reflist", "{{Reflist"]
 
+		if titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlebefore(getword("srcs"), getword("refs"), text) == False:
+			text = self.addrefs3(text, article)
+
 		if "<ref>" not in text and "</ref>" not in text:
 			return text, self.error_count
-
-		if titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titleline(getword("refs"), text) < titleline(getword("srcs"), text):
-			text = self.text = self.addrefs3(text, article)
 
 		if andop(nono, text):
 			return text, self.error_count

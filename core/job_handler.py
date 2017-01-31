@@ -12,6 +12,7 @@ import threading, queue
 import webbrowser
 import pywikibot.exceptions
 from core import warning
+import subprocess
 
 class PageLoader(threading.Thread):
 	running = True
@@ -105,14 +106,14 @@ def save_page(wpage, text, newtext, comments):
 		if config.review == True:
 			adiffer.show_diff(text, newtext)
 			print(colors.yellow+str(wpage)+": "+comments+colors.end)
-			warning.check(text, str(wpage))
+			warning.check(newtext, str(wpage))
 			answer = input('do you agree these changes? [Y/N] ')
 			if answer == 'p':
 				print(newtext)
 				answer = input('do you agree these changes? [Y/N] ')
 			elif answer == 'e':
 				artc = str(wpage).replace("[["+config.lang+":", "").replace("]]", "")
-				webbrowser.open_new_tab("https://"+config.lang+".wikipedia.org/w/index.php?title="+artc+"&action=edit")
+				webbrowser.open("https://"+config.lang+".wikipedia.org/w/index.php?title="+artc+"&action=edit", new=0)
 			if answer == 'y' or answer == 'Y':
 				pass
 			else:
@@ -128,4 +129,4 @@ def save_page(wpage, text, newtext, comments):
 			pagesaver.start()
 			savethreads.append(pagesaver)
 	else:
-		warning.check(text, str(wpage))
+		warning.check(newtext, str(wpage))

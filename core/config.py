@@ -21,3 +21,9 @@ algorithms = ["ucc", "brfix",
 
 # Ignore algorithms
 ignore = ["typofix", "ucc"]
+
+# Warnings
+warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp"]
+
+# Ignore warnings
+ignore_war = [""]

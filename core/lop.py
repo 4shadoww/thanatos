@@ -84,7 +84,6 @@ def titleline(title, text):
 def zeromatch(items, text):
 	for item in items:
 		if item in text:
-			print("match "+item+" "+text)
 			return False
 
 	return True
@@ -100,4 +99,26 @@ def abandop(items, match):
 	for item in items:
 		if item == match:
 			return True
+	return False
+
+def istitle(title):
+	titles = re.findall(r"\=.*\=", title)
+
+	if len(titles) > 0 and re.sub('[^a-zA-Z0-9åäöÅÄÖ]', '', titles[0]) == re.sub('[^a-zA-Z0-9åäöÅÄÖ]', '', title):
+		return True
+
+	return False
+
+def titlebefore(after, before, text):
+	text = text.split("\n")
+	nextref = False
+
+	for line in text:
+		if titlein(after, line):
+			nextref = True
+			continue
+		if titlein(before, line) and nextref:
+			return True
+		elif istitle(line) and nextref:
+			return False
 	return False

@@ -6,16 +6,11 @@ from core.log import *
 # Import core modules
 from core.config import *
 
-
-warnings = ["refsec"]
-
-ignore = [""]
-
 # Init warning modules
 waralgs = []
 
-for war in warnings:
-	if war not in ignore:
+for war in config.warnings:
+	if war not in config.ignore_war:
 		module = importlib.import_module("core.warnings."+war)
 		waralgs.append(module.Warning())
 

@@ -13,6 +13,7 @@ import webbrowser
 import pywikibot.exceptions
 from core import warning
 import subprocess
+import traceback
 
 class PageLoader(threading.Thread):
 	running = True
@@ -93,6 +94,15 @@ def check_pages(pages):
 			thread.join()
 		print()
 		raise
+	except:
+		print("unexcepted error: ")
+		traceback.print_exc()
+		print()
+		killer.kill = True
+		print("\nplease wait saving pages...")
+		for thread in savethreads:
+			thread.join()
+		print()
 
 
 def save_page(wpage, text, newtext, comments):

@@ -10,7 +10,8 @@ def andop(items, text):
 
 def istag(tag, data):
 	if data.count("<") == 1 and data.count(">") == 1 and tag in data:
-		data = re.sub('[^a-zA-Z0-9 ]', ' ', data)
+		data = re.sub('[^a-zA-Z0-9 ]', ' ', data).split()
+
 		if data[0] == tag:
 			return True
 	return False

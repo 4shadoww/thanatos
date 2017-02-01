@@ -15,12 +15,11 @@ algorithms = ["ucc", "brfix",
 	"centerfix", "smallfix",
 	"textinen", "twovlines",
 	"typofix", "reftosrc",
-    "fix2brackets", "fixblinks",
-	"fixpiped", "fixreflinks",
+    "fix2brackets", "fixpiped",
 	"fixreflist", "replacesrc", "refstemp"]
 
 # Ignore algorithms
-ignore = ["typofix", "ucc"]
+ignore = ["typofix", "ucc", "fixblinks", "fixreflinks"]
 
 # Warnings
 warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp"]

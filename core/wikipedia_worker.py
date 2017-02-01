@@ -1,13 +1,11 @@
 # Import pywikibot
 import pywikibot
 from pywikibot import pagegenerators
-from pywikibot import throttle
 
 def loadpage(page):
 	try:
 		site = pywikibot.Site()
-		thor = throttle.Throttle(site, mindelay=0, maxdelay=0, writedelay=0, multiplydelay=False)
-		thor.setDelays(delay=0, writedelay=0, absolute=True)
+		site.throttle.setDelays(delay=0, writedelay=5, absolute=False)
 		wpage = pywikibot.Page(site, page)
 		text = str(wpage.text)
 

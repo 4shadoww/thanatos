@@ -25,30 +25,30 @@ class Algorithm:
 		getwordlc("nref"), getword("nref"),
 		getwordlc("commons"), getword("commons"),]
 
-		nono = ["[["+getwordc("cat"),]
+		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä"]
 
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
 		feed = listend(text, getword("srcs"), srclist, nono, spaces)
 
-		if feed[0] != None and feed[2] == False:
+		if feed[1] != None and feed[2] == False:
 			self.error_count += 1
 			text = text.split("\n")
-			text[feed[0]] = text[feed[0]]+"\n{{"+getword("refs")+"}}"
+			text[feed[1]] = text[feed[1]]+"\n{{"+getword("refs")+"}}"
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"01"]
 
-		elif feed[0] != None and feed[2]:
+		elif feed[1] != None and feed[2]:
 			nl0 = "\n"
 			nl1 = "\n"
 			self.error_count += 1
 			text = text.split("\n")
-			if text[feed[0]-1] == "":
+			if text[feed[1]-1] == "":
 				nl0 = ""
-			if text[feed[0]] != "":
+			if text[feed[1]] != "":
 				nl1 += "\n"
 
-			text[feed[0]] = nl0+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1+text[feed[0]]
+			text[feed[1]] = nl0+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1+text[feed[0]]
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"00"]
 
@@ -119,7 +119,7 @@ class Algorithm:
 		getwordlc("nref"), getword("nref"),
 		getwordlc("commons"), getword("commons"),]
 
-		nono = ["[["+getwordc("cat"),]
+		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä"]
 
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
@@ -138,18 +138,18 @@ class Algorithm:
 
 		feed = listend('\n'.join(text), getword("srcs"), srclist, nono, spaces)
 
-		if feed[0] != None:
+		if feed[1] != None:
 			nl0 = "\n"
 			nl1 = "\n"
 			self.error_count += 1
-			if text[feed[0]-1] == "":
+			if text[feed[1]-1] == "":
 				nl0 = ""
-			if text[feed[0]-2] == "":
+			if text[feed[1]-2] == "":
 				nl0 += "\n"
-			if text[feed[0]] != "":
+			if text[feed[1]] != "":
 				nl1 += "\n"
 
-			text[feed[0]] = text[feed[0]]+nl0+"==="+getword("refs")+"===\n"+reftype+nl1
+			text[feed[1]] = text[feed[1]]+nl0+"==="+getword("refs")+"===\n"+reftype+nl1
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"03"]
 		return text

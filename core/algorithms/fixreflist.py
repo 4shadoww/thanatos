@@ -148,7 +148,7 @@ class Algorithm:
 				nl0 += "\n"
 			if text[feed[1]] != "":
 				nl1 += "\n"
-
+			print(text[feed[1]])
 			text[feed[1]] = text[feed[1]]+nl0+"==="+getword("refs")+"===\n"+reftype+nl1
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"03"]

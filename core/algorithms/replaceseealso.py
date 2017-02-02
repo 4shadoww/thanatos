@@ -28,6 +28,7 @@ class Algorithm:
 
 			text = text.split("\n")
 			seealsoec = '\n'.join(text[feed[0]:feed[1]])
+			print(seealsoec)
 			text = '\n'.join(text).replace(seealsoec, "").split("\n")
 			text[titleline(getword("srcs"), '\n'.join(text))] = seealsoec+"\n\n"+text[titleline(getword("srcs"), '\n'.join(text))]
 			text = '\n'.join(text)

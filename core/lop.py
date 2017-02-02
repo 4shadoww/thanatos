@@ -125,12 +125,12 @@ def titlebefore(after, before, text):
 	return False
 
 def listend(text, title, listitems, nono, spaces):
-	startpos = titleline(getwordc("srcs"), text)
+	startpos = titleline(title, text)
 	text = text.split("\n")
 	endpos = len(text)
-	belows = text[startpos:len(text)]
+	belows = text[startpos:endpos]
 	tries = 0
-	lasttemp = False
+	lasttemp = 0
 	listfound = False
 	for l, line in  enumerate(belows[1:]):
 		if abandop(spaces, line):
@@ -150,14 +150,15 @@ def listend(text, title, listitems, nono, spaces):
 		if anymatch(listitems, line):
 			listfound = True
 
-		if listfound and "|" in line and lasttemp:
+		if listfound and "|" in line and lasttemp > 0:
 			continue
 
 		if anymatch(listitems, line) and "{{" in line:
-			lasttemp = True
+			print("found", line.count("{{"))
+			lasttemp += line.count("{{")
 
 		if "}}" in line and lasttemp:
-			lasttemp = False
+			lasttemp -= line.count("}}")
 			continue
 			
 		if anymatch(nono, line):
@@ -165,7 +166,7 @@ def listend(text, title, listitems, nono, spaces):
 			break
 
 		elif zeromatch(listitems, line) and line != "" and listfound and zeromatch(listitems, belows[l+1]):
-			endpos = len(text)-len(belows)+l+1
+			endpos = len(text)-len(belows)+l
 			break
 
 	return startpos, endpos, listfound

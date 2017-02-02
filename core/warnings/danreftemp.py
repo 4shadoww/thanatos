@@ -14,4 +14,6 @@ class Warning:
 			self.error_count += 1
 		if "{{"+getword("refs")+"|" in text and "|"+getwordlc("refs")+"=" in text:
 			self.error_count += 1
+		if "<references>" in text:
+			self.error_count += 1
 		return self.error_count

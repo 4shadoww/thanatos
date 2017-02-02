@@ -11,14 +11,15 @@ def run(text, page, algorithms):
 	for algorithm in algorithms:
 		algorithm.__init__()
 		data = algorithm.run(text, page)
-		if data[1] == 1 and algorithm.comments[config.lang+"0"] not in edit_comments:
-
+		
+		if data[1] == 1 and algorithm.comments[config.lang+"0"] not in edit_comments and text != data[0]:
 			edit_comments.append(algorithm.comments[config.lang+"0"])
 
-		elif data[1] > 1 and algorithm.comments[config.lang+"1"] not in edit_comments:
-			
-			edit_comments.append(algorithm.comments[config.lang+"1"])
+		elif data[1] > 1 and config.lang+"1" not in algorithm.comments and text != data[0]:
+			edit_comments.append(algorithm.comments[config.lang+"0"])
 
+		elif data[1] > 1 and algorithm.comments[config.lang+"1"] not in edit_comments and text != data[0]:
+			edit_comments.append(algorithm.comments[config.lang+"1"])
 
 		if algorithm.zeroedit == False and text != data[0]:
 			zeroedit = False

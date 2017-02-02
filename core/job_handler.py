@@ -51,6 +51,8 @@ class PageSaver(threading.Thread):
 			log("saved "+str(self.wpage))
 		except pywikibot.exceptions.EditConflict:
 			log("edit conflict not saved "+str(self.wpage))
+		except pywikibot.exceptions.OtherPageSaveError:
+			log("other page save error not saved "+str(self.wpage))
 
 class Killer:
 	kill = False

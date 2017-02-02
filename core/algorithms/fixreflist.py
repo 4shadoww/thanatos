@@ -16,9 +16,7 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def findlist(self, text):
-		listfound = False
-
+	def addrefs0(self, text, article):
 		srclist = ["*", "{{IMDb-h", "#",
 		getwordlc("bref"), getword("bref"),
 		getwordlc("wref"), getword("wref"),
@@ -31,64 +29,16 @@ class Algorithm:
 
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
-		pos = titlepos(getword("srcs"), text)
-		belows = text[pos:len(text)].split("\n")
+		feed = listend(text, getword("srcs"), srclist, nono, spaces)
 
-		refpos = len(text.split("\n"))
-
-		tries = 0
-		lasttemp = False
-		for l, line in  enumerate(belows[1:]):
-			if abandop(spaces, line):
-				tries += 1
-
-			else:
-				tries = 0
-
-			if l == 2 and listfound == False:
-				refpos = len(text.split("\n"))-len(belows)
-				break
-
-			if tries >= 2:
-				refpos = len(text.split("\n"))-len(belows)+l
-				break
-
-			if anymatch(srclist, line):
-				listfound = True
-
-			if listfound and "|" in line and lasttemp:
-				continue
-
-			if anymatch(srclist, line) and "{{" in line:
-				lasttemp = True
-
-			if "}}" in line and lasttemp:
-				lasttemp = False
-				continue
-
-			if anymatch(nono, line):
-				refpos = len(text.split("\n"))-len(belows)+l
-				break
-
-			elif zeromatch(srclist, line) and line != "" and listfound and zeromatch(srclist, belows[l+1]):
-				print("s2")
-				print(line)
-				refpos = len(text.split("\n"))-len(belows)+l
-				break
-
-		return refpos, listfound
-
-	def addrefs0(self, text, article):
-		feed = self.findlist(text)
-
-		if feed[0] != None and feed[1] == False:
+		if feed[0] != None and feed[2] == False:
 			self.error_count += 1
 			text = text.split("\n")
 			text[feed[0]] = text[feed[0]]+"\n{{"+getword("refs")+"}}"
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"01"]
 
-		elif feed[0] != None and feed[1]:
+		elif feed[0] != None and feed[2]:
 			nl0 = "\n"
 			nl1 = "\n"
 			self.error_count += 1
@@ -161,6 +111,19 @@ class Algorithm:
 		return text
 
 	def addrefs3(self, text, article):
+		srclist = ["*", "{{IMDb-h", "#",
+		getwordlc("bref"), getword("bref"),
+		getwordlc("wref"), getword("wref"),
+		getwordlc("mref"), getword("mref"),
+		getwordlc("sref"), getword("sref"),
+		getwordlc("nref"), getword("nref"),
+		getwordlc("commons"), getword("commons"),]
+
+		nono = ["[["+getwordc("cat"),]
+
+		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
+
+
 		text = text.split("\n")
 		reftype = "{{"+getword("refs")+"}}"
 		for l, line in enumerate(text):
@@ -169,11 +132,11 @@ class Algorithm:
 				break
 		for l, line in enumerate(text):
 			if "{{"+getword("refs") in line or "{{"+getwordlc("refs") in line or istag("references", line):
-				reftype = text[l]
-				text.pop(l)
-				break
+				if "{{viitteetön" not in line and "{{Viitteetön" not in line:
+					reftype = text[l]
+					text.pop(l)
 
-		feed = self.findlist('\n'.join(text))
+		feed = listend('\n'.join(text), getword("srcs"), srclist, nono, spaces)
 
 		if feed[0] != None:
 			nl0 = "\n"
@@ -196,6 +159,12 @@ class Algorithm:
 		"{{"+getword("refs"), "{{"+getwordlc("refs"), "{{reflist", "{{Reflist"]
 
 		if titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlebefore(getword("srcs"), getword("refs"), text) == False:
+			text = self.addrefs3(text, article)
+
+		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlein(getword("li"), text) and titlebefore(getword("refs"), getword("li"), text) == False:
+			text = self.addrefs3(text, article)
+
+		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlein(getword("exl"), text) and titlebefore(getword("refs"), getword("exl"), text) == False:
 			text = self.addrefs3(text, article)
 
 		if "<ref>" not in text and "</ref>" not in text:

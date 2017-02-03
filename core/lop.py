@@ -1,6 +1,11 @@
 import re
 from core import config
 from core.langdict import *
+from core.log import *
+
+warnings = {
+	"war0fi": "lop ristiriita: kaksi samanlaista riviä",
+}
 
 def andop(items, text):
 	for item in items:
@@ -163,7 +168,7 @@ def listend(text, title, listitems, nono, spaces):
 		if anymatch(listitems, belows[l]) and "{{" in belows[l]:
 			lasttemp += belows[l].count("{{")
 
-		if "}}" in belows[l] and lasttemp:
+		if "}}" in belows[l] and lasttemp > 0:
 			lasttemp -= belows[l].count("}}")
 			continue
 
@@ -171,8 +176,33 @@ def listend(text, title, listitems, nono, spaces):
 			endpos = len(text)-len(belows)+l-1
 			break
 
-		if zeromatch(listitems, belows[l]) and belows[l] != "" and listfound and zeromatch(listitems, belows[l+1]):
+		if zeromatch(listitems, belows[l]) and listfound and zeromatch(listitems, belows[l+1]):
 			endpos = len(text)-len(belows)+l
 			break
 
 	return startpos, endpos, listfound
+
+def removefromlist(sec, listobj):
+	startpos = 0
+	foundstart = False
+	endpos = len(listobj)
+	foundend = False
+
+	for l in range(0, len(listobj)):
+		if sec[0] == listobj[l]:
+			startpos = l
+			if foundstart == True:
+				warning(warnings["war0"+config.lang])
+
+			foundstart = True
+		if sec[len(sec)-1] == listobj[l]:
+			endpos = l
+
+			if foundend == True:
+				warning(warnings["war0"+config.lang])
+
+			foundend = True
+	print(startpos, endpos)
+	for l,t in zip(range(startpos, endpos+1), range(0, endpos-startpos+1)):
+		listobj.pop(l-t)
+	return listobj

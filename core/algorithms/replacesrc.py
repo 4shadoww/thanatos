@@ -30,13 +30,18 @@ class Algorithm:
 
 			feed = listend(text, getword("srcs"), srclist, nono, spaces)
 			text = text.split("\n")
-			srcsec = '\n'.join(text[feed[0]:feed[1]+1])
+			srcsec = text[feed[0]:feed[1]+1]
 
-			text = '\n'.join(text).replace(srcsec, "").split("\n")
+			text = removefromlist(srcsec, text)
+			srcsec = '\n'.join(srcsec)
+			nl = ""
+			if "\n" not in srcsec[len(srcsec)-1:]:
+				nl = "\n"
+
 			if titlein(getword("li"), '\n'.join(text)):
-				text[titleline(getword("li"), '\n'.join(text))] = srcsec+"\n"+text[titleline(getword("li"), '\n'.join(text))]
+				text[titleline(getword("li"), '\n'.join(text))] = srcsec+nl+text[titleline(getword("li"), '\n'.join(text))]
 			else:
-				text[titleline(getword("exl"), '\n'.join(text))] = srcsec+"\n"+text[titleline(getword("exl"), '\n'.join(text))]
+				text[titleline(getword("exl"), '\n'.join(text))] = srcsec+nl+text[titleline(getword("exl"), '\n'.join(text))]
 			text = '\n'.join(text)
 			self.error_count += 1
 

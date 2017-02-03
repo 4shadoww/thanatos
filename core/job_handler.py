@@ -64,6 +64,7 @@ def page_handler(algorithms, pageobjects, pageloader):
 	while True:
 		try:
 			printlog("checking: "+str(pageobjects[num][1]))
+
 			data = check_page.run(pageobjects[num][2], pageobjects[num][3], algorithms)
 
 			if data[2] == False:
@@ -97,6 +98,11 @@ def check_pages(pages):
 			thread.join()
 		print()
 		raise
+	except SystemExit:
+		print("\nplease wait saving pages...")
+		for thread in savethreads:
+			thread.join()
+		print()
 	except:
 		print("unexcepted error: ")
 		traceback.print_exc()

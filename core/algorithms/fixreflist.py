@@ -67,26 +67,32 @@ class Algorithm:
 		getwordlcc("cat"),]
 
 		unwanted = ["{{"+getword("commons"), "{{"+getwordlc("commons"), "*", "#",
-		"<ref>", "</ref>", "\n", "\t", "\b", "\a", "\r"]
+		"<ref>", "</ref>", "\n", "\t", "\b", "\a", "\r", "|}"]
 
 		text = text.split("\n")
 		firstcat = len(text)
 		for l, line in enumerate(text):
 			if getwordlcc("cat") in line or getwordc("cat") in line:
 				firstcat = l
+				pos = l
 				break
 
 		for l, line in reversed(list(enumerate(text[:firstcat]))):
 			if anymatch(unwanted, line):
-				pos = len(text)-len(text[:firstcat])-l
+				minus = len(text)-l
+				pos = len(text)-minus
 				break
 
 			elif zeromatch(nono, line) and zeromatch(nono, text[l-1]) and line != "":
-				pos = len(text)-len(text[:firstcat])-l
+				minus = len(text)-l
+				pos = len(text)-minus
 				break
 
 		if pos != None:
-			text[pos] = text[pos]+"\n\n=="+getword("srcs")+"==\n{{"+getword("refs")+"}}\n"
+			nl = ""
+			if text[pos] != "":
+				nl = "\n"
+			text[pos] = text[pos]+nl+"\n=="+getword("srcs")+"==\n{{"+getword("refs")+"}}\n"
 
 		text = '\n'.join(text)
 		self.error_count += 1

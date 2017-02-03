@@ -1,3 +1,4 @@
+import re
 from core.algcore import *
 
 class Algorithm:
@@ -5,7 +6,10 @@ class Algorithm:
 	error_count = 0
 
 	comments = {
-		"fi0": u"siirsi \"Katso myös\" -osion oikeaan kohtaan",
+		"fi0": u"muutti \"Katso myös\" -osion muotoon \"Aiheesta muualla\"",
+	}
+	warnings = {
+	"fic": "aihessta muualla osio ristiriita"
 	}
 
 	def __init__(self):
@@ -23,15 +27,16 @@ class Algorithm:
 
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
-		if titlein(getword("seealso"), text) and titlein(getword("srcs"), text) and titlepos(getword("seealso"), text) > titlepos(getword("srcs"), text):
+		if titlein(getword("seealso"), text) and "http://" in text or titlein(getword("seealso"), text) and "https://" in text:
 			feed = listend(text, getword("seealso"), srclist, nono, spaces)
-
 			text = text.split("\n")
-			seealsoec = '\n'.join(text[feed[0]:feed[1]+1])
-			print(seealsoec)
-			text = '\n'.join(text).replace(seealsoec, "").split("\n")
-			text[titleline(getword("srcs"), '\n'.join(text))] = seealsoec+"\n"+text[titleline(getword("srcs"), '\n'.join(text))]
-			text = '\n'.join(text)
-			self.error_count += 1
+			seealsosec = '\n'.join(text[feed[0]:feed[1]+1])
 
+			if "[[" in seealsosec and "http://" in seealsosec or "[[" in seealsosec and "https://" in seealsosec:
+				warning(self.warnings[config.lang+"c"])
+			if "http://" in seealsosec or "https://" in seealsosec:
+				text[feed[0]] = "=="+getword("exl")+"=="
+				self.error_count += 1
+
+			text = '\n'.join(text)
 		return text, self.error_count

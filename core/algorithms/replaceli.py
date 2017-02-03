@@ -5,7 +5,7 @@ class Algorithm:
 	error_count = 0
 
 	comments = {
-		"fi0": u"siirsi Kirjallisuutta osion oikeaan kohtaan",
+		"fi0": u"siirsi \"Kirjallisuutta\" -osion oikeaan kohtaan",
 	}
 
 	def __init__(self):
@@ -19,7 +19,7 @@ class Algorithm:
 		getwordlc("sref"), getword("sref"),
 		getwordlc("nref"), getword("nref"),
 		getwordlc("commons"), getword("commons")]
-		nono = ["[["+getwordc("cat"),]
+		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
@@ -27,9 +27,9 @@ class Algorithm:
 			feed = listend(text, getword("li"), srclist, nono, spaces)
 
 			text = text.split("\n")
-			exlec = '\n'.join(text[startpos:endpos])
+			exlec = '\n'.join(text[feed[0]:feed[1]+1])
 			text = '\n'.join(text).replace(exlec, "").split("\n")
-			text[titleline(getword("exl"), '\n'.join(text))] = exlec+"\n\n"+text[titleline(getword("exl"), '\n'.join(text))]
+			text[titleline(getword("exl"), '\n'.join(text))] = exlec+"\n"+text[titleline(getword("exl"), '\n'.join(text))]
 			text = '\n'.join(text)
 			self.error_count += 1
 

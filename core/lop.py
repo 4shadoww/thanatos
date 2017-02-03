@@ -132,14 +132,17 @@ def listend(text, title, listitems, nono, spaces):
 	tries = 0
 	lasttemp = 0
 	listfound = False
-	for l, line in  enumerate(belows[1:]):
-		if abandop(spaces, line):
+	for l in  range(0, len(belows)):
+		if l == 0:
+			continue
+
+		if abandop(spaces, belows[l]):
 			tries += 1
 
 		else:
 			tries = 0
 
-		if l == 2 and listfound == False:
+		if l == 3 and listfound == False:
 			endpos = len(text)-len(belows)
 			break
 
@@ -147,25 +150,28 @@ def listend(text, title, listitems, nono, spaces):
 			endpos = len(text)-len(belows)+l
 			break
 
-		if anymatch(listitems, line):
-			listfound = True
-
-		if listfound and "|" in line and lasttemp > 0:
-			continue
-
-		if anymatch(listitems, line) and "{{" in line:
-			print("found", line.count("{{"))
-			lasttemp += line.count("{{")
-
-		if "}}" in line and lasttemp:
-			lasttemp -= line.count("}}")
-			continue
-			
-		if anymatch(nono, line):
-			endpos = len(text)-len(belows)+l
+		if istitle(belows[l]) and "===" not in belows[l]:
+			endpos = len(text)-len(belows)+l-1
 			break
 
-		elif zeromatch(listitems, line) and line != "" and listfound and zeromatch(listitems, belows[l+1]):
+		if anymatch(listitems, belows[l]):
+			listfound = True
+
+		if listfound and lasttemp > 0:
+			continue
+
+		if anymatch(listitems, belows[l]) and "{{" in belows[l]:
+			lasttemp += belows[l].count("{{")
+
+		if "}}" in belows[l] and lasttemp:
+			lasttemp -= belows[l].count("}}")
+			continue
+
+		if anymatch(nono, belows[l]):
+			endpos = len(text)-len(belows)+l-1
+			break
+
+		if zeromatch(listitems, belows[l]) and belows[l] != "" and listfound and zeromatch(listitems, belows[l+1]):
 			endpos = len(text)-len(belows)+l
 			break
 

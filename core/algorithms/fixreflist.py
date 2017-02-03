@@ -7,10 +7,10 @@ class Algorithm:
 
 	comments = {
 		"fi0": u"",
-		"fi00": u"lisäsi puuttuvan Viitteet osion",
-		"fi01": u"lisäsi puuttuvan Viitteet mallinen",
-		"fi02": u"lisäsi puuttuvan Lähteet osion",
-		"fi03": u"siirsi Viitteet osion oikeaan kohtaan",
+		"fi00": u"lisäsi puuttuvan \"Viitteet\" -osion",
+		"fi01": u"lisäsi puuttuvan \"Viitteet\" mallinen",
+		"fi02": u"lisäsi puuttuvan \"Lähteet\" -osion",
+		"fi03": u"siirsi \"Viitteet\" -osion oikeaan kohtaan",
 	}
 
 	def __init__(self):
@@ -23,9 +23,11 @@ class Algorithm:
 		getwordlc("mref"), getword("mref"),
 		getwordlc("sref"), getword("sref"),
 		getwordlc("nref"), getword("nref"),
-		getwordlc("commons"), getword("commons"),]
+		getwordlc("commons"), getword("commons"),
+		"{{"+getword("refs"), "{{"+getwordlc("refs"),
+		"<references"]
 
-		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä"]
+		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
@@ -34,7 +36,10 @@ class Algorithm:
 		if feed[1] != None and feed[2] == False:
 			self.error_count += 1
 			text = text.split("\n")
-			text[feed[1]] = text[feed[1]]+"\n{{"+getword("refs")+"}}"
+			nl00 = "\n"
+			if text[feed[1]] == "":
+				nl00 = ""
+			text[feed[1]] = text[feed[1]]+nl00+"{{"+getword("refs")+"}}"
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"01"]
 
@@ -48,56 +53,44 @@ class Algorithm:
 			if text[feed[1]] != "":
 				nl1 += "\n"
 
-			text[feed[1]] = nl0+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1+text[feed[0]]
+			text[feed[1]] = nl0+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1+text[feed[1]]
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"00"]
 
 		return text
 
 	def addrefs1(self, text, article):
-		method = 0
 		targetline = None
 
-		for l, line in enumerate(text.split("\n")):
+		pos = None
+		nono = ["{{", getwordc("cat"),
+		getwordlcc("cat"),]
 
-			if titlein(getword("exl"), line):
-				method = 1
-				targetline = l
+		unwanted = ["{{"+getword("commons"), "{{"+getwordlc("commons"), "*", "#",
+		"<ref>", "</ref>", "\n", "\t", "\b", "\a", "\r"]
+
+		text = text.split("\n")
+		firstcat = len(text)
+		for l, line in enumerate(text):
+			if getwordlcc("cat") in line or getwordc("cat") in line:
+				firstcat = l
 				break
 
-		if method == 0:
-			pos = None
-			nono = ["{{", getwordc("cat"),
-			getwordlcc("cat")]
+		for l, line in reversed(list(enumerate(text[:firstcat]))):
+			if anymatch(unwanted, line):
+				pos = len(text)-len(text[:firstcat])-l
+				break
 
-			unwanted = ["{{"+getword("commons"), "{{"+getwordlc("commons"), "*", "#",
-			"<ref>", "</ref>", "\n", "\t", "\b", "\a", "\r"]
+			elif zeromatch(nono, line) and zeromatch(nono, text[l-1]) and line != "":
+				pos = len(text)-len(text[:firstcat])-l
+				break
 
-			text = text.split("\n")
-			for l, line in reversed(list(enumerate(text))):
-				if anymatch(unwanted, line):
-					pos = l
-					break
+		if pos != None:
+			text[pos] = text[pos]+"\n\n=="+getword("srcs")+"==\n{{"+getword("refs")+"}}\n"
 
-				elif zeromatch(nono, line) and zeromatch(nono, text[l-1]) and line != "":
-					pos = l
-					break
-
-			if pos != None:
-				text[pos] = text[pos]+"\n\n=="+getword("srcs")+"==\n{{"+getword("refs")+"}}\n"
-
-			text = '\n'.join(text)
-			self.error_count += 1
-			self.comments[config.lang+"0"] = self.comments[config.lang+"02"]
-
-
-		elif method == 1 and targetline != None:
-			text = text.split("\n")
-			text[targetline] = "=="+getword("srcs")+"==\n{{"+getword("refs")+"}}\n\n"+text[targetline]
-			text = '\n'.join(text)
-			self.error_count += 1
-			self.comments[config.lang+"0"] = self.comments[config.lang+"02"]
-
+		text = '\n'.join(text)
+		self.error_count += 1
+		self.comments[config.lang+"0"] = self.comments[config.lang+"02"]
 
 		return text
 
@@ -117,24 +110,25 @@ class Algorithm:
 		getwordlc("mref"), getword("mref"),
 		getwordlc("sref"), getword("sref"),
 		getwordlc("nref"), getword("nref"),
-		getwordlc("commons"), getword("commons"),]
+		getwordlc("commons"), getword("commons"),
+		"{{"+getword("refs"), "{{"+getwordlc("refs"),
+		"<references"]
 
-		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä"]
+		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
 
 		text = text.split("\n")
-		reftype = "{{"+getword("refs")+"}}"
-		for l, line in enumerate(text):
-			if titlein(getword("refs"), line):
-				text.pop(l)
-				break
-		for l, line in enumerate(text):
-			if "{{"+getword("refs") in line or "{{"+getwordlc("refs") in line or istag("references", line):
-				if "{{viitteetön" not in line and "{{Viitteetön" not in line:
-					reftype = text[l]
-					text.pop(l)
+
+		feed0 = listend('\n'.join(text), getword("refs"), srclist, nono, spaces)
+
+		refsec = '\n'.join(text[feed0[0]:feed0[1]+1])
+
+
+		for l,t in zip(range(feed0[0], feed0[1]+1), range(0, feed0[1]-feed0[0]+1)):
+			text.pop(l-t)
+
 
 		feed = listend('\n'.join(text), getword("srcs"), srclist, nono, spaces)
 
@@ -142,20 +136,14 @@ class Algorithm:
 			nl0 = "\n"
 			nl1 = "\n"
 			self.error_count += 1
-			if text[feed[1]-1] == "":
-				nl0 = ""
-			if text[feed[1]-2] == "":
-				nl0 += "\n"
-			if text[feed[1]] != "":
-				nl1 += "\n"
-			print(text[feed[1]])
-			text[feed[1]] = text[feed[1]]+nl0+"==="+getword("refs")+"===\n"+reftype+nl1
+			
+			text[feed[1]] = text[feed[1]]+nl0+refsec+"\n"+nl1
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"03"]
 		return text
 
 	def run(self, text, article):
-		nono = ["<references/>", "<references />", 
+		nono = ["<references/>", "<references />", "<references>",
 		"{{"+getword("refs"), "{{"+getwordlc("refs"), "{{reflist", "{{Reflist"]
 
 		if titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlebefore(getword("srcs"), getword("refs"), text) == False:

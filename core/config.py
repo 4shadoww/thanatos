@@ -13,18 +13,18 @@ test = False
 # Algorithms execute order
 algorithms = ["ucc", "brfix",
 	"centerfix", "smallfix",
-	"textinen", "twovlines",
+	"textinen", "seealsotoexl", "twovlines",
 	"typofix", "reftosrc",
-    "fix2brackets", "fixpiped",
-	"fixreflist", "replacesrc",
-	"replaceseealso", "replaceli",
-	"refstemp"]
+	"refstemp", "fix2brackets",
+	"fixpiped", "fixreflist",
+	"replacesrc", "replaceseealso",
+	"replaceli",]
 
 # Ignore algorithms
 ignore = ["typofix", "ucc", "fixblinks", "fixreflinks"]
 
 # Warnings
-warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp"]
+warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp",]
 
 # Ignore warnings
 ignore_war = [""]

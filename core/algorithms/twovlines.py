@@ -18,7 +18,7 @@ class Algorithm:
 		brackets = re.findall(r"\[(.*?)\]", text)
 		for item in brackets:
 			if '||' in item and getword("img") not in item and getword("file")  not in item and 'Image:' not in item and 'File:' not in item:
-				errorcount += 1
+				self.error_count += 1
 				olditem = '['+item+']]'
 				item = '['+item+']]'
 				item = item.replace('||', '|')

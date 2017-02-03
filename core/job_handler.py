@@ -77,6 +77,7 @@ def page_handler(algorithms, pageobjects, pageloader):
 		except IndexError:
 			if num == len(pageobjects)-1 and pageloader.running == False:
 				break
+
 savethreads = []
 
 def check_pages(pages):
@@ -119,6 +120,7 @@ def save_page(wpage, text, newtext, comments):
 			adiffer.show_diff(text, newtext)
 			print(colors.yellow+str(wpage)+": "+comments+colors.end)
 			warning.check(newtext, str(wpage))
+			printwarnings()
 			answer = input('do you agree these changes? [Y/N] ')
 			if answer == 'p':
 				print(newtext)
@@ -142,3 +144,4 @@ def save_page(wpage, text, newtext, comments):
 			savethreads.append(pagesaver)
 	else:
 		warning.check(newtext, str(wpage))
+		printwarnings()

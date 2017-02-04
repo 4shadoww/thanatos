@@ -132,7 +132,7 @@ def titlebefore(after, before, text):
 def listend(text, title, listitems, nono, spaces):
 	startpos = titleline(title, text)
 	text = text.split("\n")
-	endpos = len(text)
+	endpos = len(text)-1
 	belows = text[startpos:endpos]
 	tries = 0
 	lasttemp = 0
@@ -162,9 +162,6 @@ def listend(text, title, listitems, nono, spaces):
 		if anymatch(listitems, belows[l]):
 			listfound = True
 
-		if listfound and lasttemp > 0:
-			continue
-
 		if anymatch(listitems, belows[l]) and "{{" in belows[l]:
 			lasttemp += belows[l].count("{{")
 
@@ -177,32 +174,31 @@ def listend(text, title, listitems, nono, spaces):
 			break
 
 		if zeromatch(listitems, belows[l]) and listfound and zeromatch(listitems, belows[l+1]):
-			endpos = len(text)-len(belows)+l
+			endpos = len(text)-len(belows)+l-1
 			break
 
 	return startpos, endpos, listfound
 
 def removefromlist(sec, listobj):
-	startpos = 0
-	foundstart = False
-	endpos = len(listobj)
-	foundend = False
+	confirmed = False
+	i = 0
+	startpos = None
 
 	for l in range(0, len(listobj)):
-		if sec[0] == listobj[l]:
-			startpos = l
-			if foundstart == True:
-				warning(warnings["war0"+config.lang])
+		if i == len(sec):
+			confirmed = True
+			break
 
-			foundstart = True
-		if sec[len(sec)-1] == listobj[l]:
-			endpos = l
+		if sec[i] == listobj[l]:
+			if startpos == None:
+				startpos = l
+			i += 1
+		else:
+			startpos = None
+			i = 0	
 
-			if foundend == True:
-				warning(warnings["war0"+config.lang])
+	for l in range(0, len(sec)):
+		listobj.pop(startpos)
 
-			foundend = True
-	print(startpos, endpos)
-	for l,t in zip(range(startpos, endpos+1), range(0, endpos-startpos+1)):
-		listobj.pop(l-t)
+
 	return listobj

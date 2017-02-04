@@ -32,7 +32,6 @@ class Algorithm:
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
 		feed = listend(text, getword("srcs"), srclist, nono, spaces)
-
 		if feed[1] != None and feed[2] == False:
 			self.error_count += 1
 			text = text.split("\n")
@@ -48,6 +47,7 @@ class Algorithm:
 			nl1 = "\n"
 			self.error_count += 1
 			text = text.split("\n")
+			print(feed[0], text[feed[0]])
 			if text[feed[1]-1] == "":
 				nl0 = ""
 			if text[feed[1]] != "":

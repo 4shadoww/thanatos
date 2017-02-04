@@ -27,10 +27,19 @@ class Algorithm:
 			feed = listend(text, getword("seealso"), srclist, nono, spaces)
 
 			text = text.split("\n")
-			seealsoec = '\n'.join(text[feed[0]:feed[1]+1])
-			print(seealsoec)
-			text = '\n'.join(text).replace(seealsoec, "").split("\n")
-			text[titleline(getword("srcs"), '\n'.join(text))] = seealsoec+"\n"+text[titleline(getword("srcs"), '\n'.join(text))]
+			seealsoec = text[feed[0]:feed[1]+1]
+			text = removefromlist(seealsoec, text)
+
+			if seealsoec[len(seealsoec)-1] != "" and seealsoec[len(seealsoec)-2] != "":
+				seealsoec.append("")
+				seealsoec.append("")
+
+			elif seealsoec[len(seealsoec)-1] != "":
+				seealsoec.append("")
+
+			seealsoec = '\n'.join(seealsoec)
+
+			text[titleline(getword("srcs"), '\n'.join(text))] = seealsoec+text[titleline(getword("srcs"), '\n'.join(text))]
 			text = '\n'.join(text)
 			self.error_count += 1
 

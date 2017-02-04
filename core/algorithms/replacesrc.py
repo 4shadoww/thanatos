@@ -33,15 +33,20 @@ class Algorithm:
 			srcsec = text[feed[0]:feed[1]+1]
 
 			text = removefromlist(srcsec, text)
+
+			if srcsec[len(srcsec)-1] != "" and srcsec[len(srcsec)-2] != "":
+				srcsec.append("")
+				srcsec.append("")
+
+			elif srcsec[len(srcsec)-1] != "":
+				srcsec.append("")
+
 			srcsec = '\n'.join(srcsec)
-			nl = ""
-			if "\n" not in srcsec[len(srcsec)-1:]:
-				nl = "\n"
 
 			if titlein(getword("li"), '\n'.join(text)):
-				text[titleline(getword("li"), '\n'.join(text))] = srcsec+nl+text[titleline(getword("li"), '\n'.join(text))]
+				text[titleline(getword("li"), '\n'.join(text))] = srcsec+text[titleline(getword("li"), '\n'.join(text))]
 			else:
-				text[titleline(getword("exl"), '\n'.join(text))] = srcsec+nl+text[titleline(getword("exl"), '\n'.join(text))]
+				text[titleline(getword("exl"), '\n'.join(text))] = srcsec+text[titleline(getword("exl"), '\n'.join(text))]
 			text = '\n'.join(text)
 			self.error_count += 1
 

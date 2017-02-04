@@ -27,9 +27,20 @@ class Algorithm:
 			feed = listend(text, getword("li"), srclist, nono, spaces)
 
 			text = text.split("\n")
-			exlec = '\n'.join(text[feed[0]:feed[1]+1])
-			text = '\n'.join(text).replace(exlec, "").split("\n")
-			text[titleline(getword("exl"), '\n'.join(text))] = exlec+"\n"+text[titleline(getword("exl"), '\n'.join(text))]
+			exlec = text[feed[0]:feed[1]+1]
+			text = removefromlist(exlec, text)
+
+			if exlec[len(exlec)-1] != "" and exlec[len(exlec)-2] != "":
+				exlec.append("")
+				exlec.append("")
+
+			elif exlec[len(exlec)-1] != "":
+				exlec.append("")
+
+			exlec = '\n'.join(exlec)
+
+
+			text[titleline(getword("exl"), '\n'.join(text))] = exlec+text[titleline(getword("exl"), '\n'.join(text))]
 			text = '\n'.join(text)
 			self.error_count += 1
 

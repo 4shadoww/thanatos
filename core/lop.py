@@ -115,7 +115,7 @@ def istitle(title):
 
 	return False
 
-def titlebefore(after, before, text):
+def titlebefore(after, before, text, subtitles=True):
 	text = text.split("\n")
 	nextref = False
 
@@ -126,24 +126,33 @@ def titlebefore(after, before, text):
 		if titlein(before, line) and nextref:
 			return True
 		elif istitle(line) and nextref:
-			return False
+			if subtitles == False and "===" not in line:
+				return False
+			elif subtitles == True:
+				return False
 	return False
 
 def listend(text, title, listitems, nono, spaces):
 	startpos = titleline(title, text)
+	endpos = titleline(title, text)
 	text = text.split("\n")
-	endpos = len(text)-1
-	belows = text[startpos:endpos]
+	belows = text[startpos:len(text)-1]
 	tries = 0
 	lasttemp = 0
 	listfound = False
+	lastvalid = None
+
 	for l in  range(0, len(belows)):
 		if l == 0:
 			continue
 
-		if abandop(spaces, belows[l]):
-			tries += 1
+		if anymatch(listitems, belows[l]):
+			listfound = True
+			lastvalid = len(text)-len(belows)+l
 
+		if belows[l] == "":
+			tries += 1
+			lastvalid = len(text)-len(belows)+l-1
 		else:
 			tries = 0
 
@@ -156,13 +165,10 @@ def listend(text, title, listitems, nono, spaces):
 			break
 
 		if istitle(belows[l]) and "===" not in belows[l]:
-			endpos = len(text)-len(belows)+l-1
+			endpos = len(text)-len(belows)+l-2
 			break
 
-		if anymatch(listitems, belows[l]):
-			listfound = True
-
-		if anymatch(listitems, belows[l]) and "{{" in belows[l]:
+		if anymatch(listitems, belows[l]) and "{{" in belows[l] and anymatch(nono, belows[l]) == False:
 			lasttemp += belows[l].count("{{")
 
 		if "}}" in belows[l] and lasttemp > 0:
@@ -170,12 +176,15 @@ def listend(text, title, listitems, nono, spaces):
 			continue
 
 		if anymatch(nono, belows[l]):
-			endpos = len(text)-len(belows)+l-1
+			endpos = len(text)-len(belows)+l-2
 			break
 
-		if zeromatch(listitems, belows[l]) and listfound and zeromatch(listitems, belows[l+1]):
-			endpos = len(text)-len(belows)+l-1
+		if zeromatch(listitems, belows[l]) and listfound and l+1 != len(belows) and zeromatch(listitems, belows[l+1]):
+			endpos = len(text)-len(belows)+l-2
 			break
+
+		if l == len(belows)-1 and lastvalid != None:
+			endpos = lastvalid
 
 	return startpos, endpos, listfound
 
@@ -199,6 +208,5 @@ def removefromlist(sec, listobj):
 
 	for l in range(0, len(sec)):
 		listobj.pop(startpos)
-
 
 	return listobj

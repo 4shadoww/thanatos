@@ -1,34 +1,61 @@
 import datetime
-import io
 from core import config
 from core import colors
+import sys
 
 time = datetime.datetime.now()
 logfilename = str(time)
 if config.enable_log == True:
 	logfile = open('core/log/'+logfilename+'.log', 'a')
 
-def printlog(*message):
-		time = datetime.datetime.now()
-		line = str(time)+' '+str(message[0])
-		if config.enable_log == True:
-			logfile.write(line+"\n")
-		print(time,str(message[0]))
+def printlog(*message, end='\n'):
+	finalmessage = ""
+	for l, mes in enumerate(message):
+		finalmessage += str(mes)
+		if l != len(message):
+			finalmessage += " "
 
-def log(*message):
+	time = datetime.datetime.now()
+	line = str(time)+' '+finalmessage+end
+	if config.enable_log == True:
+		logfile.write(line)
+	sys.stdout.write(line)
+
+def log(*message, end='\n'):
+	finalmessage = ""
+	for l, mes in enumerate(message):
+		finalmessage += str(mes)
+		if l != len(message):
+			finalmessage += " "
+
 	if config.enable_log == True:
 		time = datetime.datetime.now()
-		line = str(time)+' '+str(message[0])
-		logfile.write(line+"\n")
+		line = str(time)+' '+finalmessage+end
+		logfile.write(line)
 
 warnings = []
 
 def warning(*message):
-	warnings.append(message[0])
+	finalmessage = ""
+	for l, mes in enumerate(message):
+		finalmessage += str(mes)
+		if l != len(message):
+			finalmessage += " "
+	warnings.append(finalmessage)
 
 def printwarnings():
 	global warnings
 	for war in warnings:
-		print(colors.red+"warning: "+war+colors.end)
+		sys.stdout.write(colors.red+"warning: "+war+colors.end+"\n")
 		log(war)
 	warnings = []
+
+def debug(*message, end='\n'):
+	finalmessage = ""
+	for l, mes in enumerate(message):
+		finalmessage += str(mes)
+		if l != len(message):
+			finalmessage += " "
+
+	sys.stdout.write(finalmessage+end)
+	log(finalmessage)

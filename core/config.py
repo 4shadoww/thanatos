@@ -14,14 +14,13 @@ test = False
 algorithms = ["ucc", "brfix",
 	"centerfix", "smallfix",
 	"textinen", "seealsotoexl", "twovlines",
-	"typofix", "reftosrc",
-	"refstemp", "fix2brackets",
-	"fixpiped", "fixreflist",
-	"replacesrc", "replaceseealso",
-	"replaceli",]
+	"typofix", "reftosrc", "titlelevel",
+	"refstemp", "fix2brackets", "filedelinker",
+	"fixpiped", "replacesrc", "replaceseealso",
+	"replaceli", "fixreflist",]
 
 # Ignore algorithms
-ignore = ["typofix", "ucc", "fixblinks", "fixreflinks"]
+ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker"]
 
 # Warnings
 warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp",]

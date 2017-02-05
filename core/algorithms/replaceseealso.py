@@ -19,6 +19,7 @@ class Algorithm:
 		getwordlc("sref"), getword("sref"),
 		getwordlc("nref"), getword("nref"),
 		getwordlc("commons"), getword("commons")]
+		
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
@@ -30,11 +31,10 @@ class Algorithm:
 			seealsoec = text[feed[0]:feed[1]+1]
 			text = removefromlist(seealsoec, text)
 
-			if seealsoec[len(seealsoec)-1] != "" and seealsoec[len(seealsoec)-2] != "":
-				seealsoec.append("")
+			if seealsoec[len(seealsoec)-1] != "":
 				seealsoec.append("")
 
-			elif seealsoec[len(seealsoec)-1] != "":
+			if seealsoec[len(seealsoec)-2] != "":
 				seealsoec.append("")
 
 			seealsoec = '\n'.join(seealsoec)

@@ -33,14 +33,11 @@ class Algorithm:
 			srcsec = text[feed[0]:feed[1]+1]
 
 			text = removefromlist(srcsec, text)
-
-			if srcsec[len(srcsec)-1] != "" and srcsec[len(srcsec)-2] != "":
-				srcsec.append("")
+			if srcsec[len(srcsec)-1] != "":
 				srcsec.append("")
 
-			elif srcsec[len(srcsec)-1] != "":
+			if srcsec[len(srcsec)-2] != "":
 				srcsec.append("")
-
 			srcsec = '\n'.join(srcsec)
 
 			if titlein(getword("li"), '\n'.join(text)):

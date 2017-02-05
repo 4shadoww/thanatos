@@ -27,14 +27,17 @@ class Algorithm:
 			feed = listend(text, getword("li"), srclist, nono, spaces)
 
 			text = text.split("\n")
+			if "===" in text[titleline(getword("li"), '\n'.join(text))]:
+				text = '\n'.join(text)
+				return text, self.error_count
+
 			exlec = text[feed[0]:feed[1]+1]
 			text = removefromlist(exlec, text)
 
-			if exlec[len(exlec)-1] != "" and exlec[len(exlec)-2] != "":
-				exlec.append("")
+			if exlec[len(exlec)-1] != "":
 				exlec.append("")
 
-			elif exlec[len(exlec)-1] != "":
+			if exlec[len(exlec)-2] != "":
 				exlec.append("")
 
 			exlec = '\n'.join(exlec)

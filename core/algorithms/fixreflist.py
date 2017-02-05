@@ -32,13 +32,14 @@ class Algorithm:
 		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
 
 		feed = listend(text, getword("srcs"), srclist, nono, spaces)
+
 		if feed[1] != None and feed[2] == False:
 			self.error_count += 1
 			text = text.split("\n")
 			nl00 = "\n"
-			if text[feed[1]] == "":
+			if text[feed[0]] == "":
 				nl00 = ""
-			text[feed[1]] = text[feed[1]]+nl00+"{{"+getword("refs")+"}}"
+			text[feed[0]] = text[feed[0]]+nl00+"{{"+getword("refs")+"}}"
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"01"]
 
@@ -47,7 +48,6 @@ class Algorithm:
 			nl1 = "\n"
 			self.error_count += 1
 			text = text.split("\n")
-			print(feed[0], text[feed[0]])
 			if text[feed[1]-1] == "":
 				nl0 = ""
 			if text[feed[1]] != "":
@@ -80,13 +80,16 @@ class Algorithm:
 		for l, line in reversed(list(enumerate(text[:firstcat]))):
 			if anymatch(unwanted, line):
 				minus = len(text)-l
-				pos = len(text)-minus
+				pos = len(text)-minus+1
 				break
 
 			elif zeromatch(nono, line) and zeromatch(nono, text[l-1]) and line != "":
 				minus = len(text)-l
-				pos = len(text)-minus
+				pos = len(text)-minus+1
 				break
+
+		if pos == len(text):
+			pos -= 1
 
 		if pos != None:
 			nl = ""
@@ -152,13 +155,13 @@ class Algorithm:
 		nono = ["<references/>", "<references />", "<references>",
 		"{{"+getword("refs"), "{{"+getwordlc("refs"), "{{reflist", "{{Reflist"]
 
-		if titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlebefore(getword("srcs"), getword("refs"), text) == False:
+		if titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlebefore(getword("srcs"), getword("refs"), text, subtitles=False) == False:
 			text = self.addrefs3(text, article)
 
-		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlein(getword("li"), text) and titlebefore(getword("refs"), getword("li"), text) == False:
+		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlein(getword("li"), text) and titlebefore(getword("refs"), getword("li"), text, subtitles=False) == False:
 			text = self.addrefs3(text, article)
 
-		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlein(getword("exl"), text) and titlebefore(getword("refs"), getword("exl"), text) == False:
+		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlein(getword("exl"), text) and titlein(getword("li"), text) == False and titlebefore(getword("refs"), getword("exl"), text, subtitles=False) == False:
 			text = self.addrefs3(text, article)
 
 		if "<ref>" not in text and "</ref>" not in text:

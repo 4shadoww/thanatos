@@ -47,8 +47,9 @@ class PageSaver(threading.Thread):
 
 	def run(self):
 		try:
-			self.wpage.save(self.comments)
-			log("saved "+str(self.wpage))
+			if self.wpage.exists():
+				self.wpage.save(self.comments)
+				log("saved "+str(self.wpage))
 		except pywikibot.exceptions.EditConflict:
 			log("edit conflict not saved "+str(self.wpage))
 		except pywikibot.exceptions.OtherPageSaveError:

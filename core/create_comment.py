@@ -19,7 +19,7 @@ def comment(comments):
 			full_comment += "."
 
 		elif i == len(comments)-2:
-			full_comment += ", ja "
+			full_comment += ", "+lang[config.lang+"_and"]+" "
 
 		else:
 			full_comment += ", "

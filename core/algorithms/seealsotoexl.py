@@ -25,10 +25,8 @@ class Algorithm:
 		getwordlc("commons"), getword("commons")]
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
-		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
-
 		if titlein(getword("seealso"), text) and "http://" in text and titlein(getword("exl"), text) == False or titlein(getword("seealso"), text) and "https://" in text and titlein(getword("exl"), text) == False:
-			feed = listend(text, getword("seealso"), srclist, nono, spaces)
+			feed = listend(text, getword("seealso"), srclist, nono)
 			text = text.split("\n")
 			seealsosec = '\n'.join(text[feed[0]:feed[1]+1])
 

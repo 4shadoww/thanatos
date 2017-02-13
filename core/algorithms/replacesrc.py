@@ -24,11 +24,9 @@ class Algorithm:
 		"==="+getword("refs")+"==="]
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
-		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
-
 		if titlein(getword("srcs"), text) and titlein(getword("exl"), text) and titlepos(getword("srcs"), text) > titlepos(getword("exl"), text) or titlein(getword("srcs"), text) and titlein(getword("li"), text) and titlepos(getword("srcs"), text) > titlepos(getword("li"), text):
 
-			feed = listend(text, getword("srcs"), srclist, nono, spaces)
+			feed = listend(text, getword("srcs"), srclist, nono)
 			text = text.split("\n")
 			srcsec = text[feed[0]:feed[1]+1]
 

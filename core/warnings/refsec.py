@@ -13,7 +13,10 @@ class Warning:
 		if titlein(getword("refs"), text) and "<ref" not in text:
 			self.error_count += 1
 
-		if "{{"+getword("refs") in text and "<ref" not in text or "{{"+getwordlc("refs") in text and "<ref" not in text:
+		if "{{"+getword("refs")+"|" in text and "<ref" not in text or "{{"+getwordlc("refs")+"|" in text and "<ref" not in text:
+			self.error_count += 1
+
+		if "{{"+getword("refs")+"}}" in text and "<ref" not in text or "{{"+getwordlc("refs")+"}}" in text and "<ref" not in text:
 			self.error_count += 1
 
 		return self.error_count

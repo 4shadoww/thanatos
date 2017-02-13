@@ -19,13 +19,11 @@ class Algorithm:
 		getwordlc("sref"), getword("sref"),
 		getwordlc("nref"), getword("nref"),
 		getwordlc("commons"), getword("commons")]
-		
+
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
-		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
-
 		if titlein(getword("seealso"), text) and titlein(getword("srcs"), text) and titlepos(getword("seealso"), text) > titlepos(getword("srcs"), text):
-			feed = listend(text, getword("seealso"), srclist, nono, spaces)
+			feed = listend(text, getword("seealso"), srclist, nono)
 
 			text = text.split("\n")
 			seealsoec = text[feed[0]:feed[1]+1]

@@ -21,10 +21,8 @@ class Algorithm:
 		getwordlc("commons"), getword("commons")]
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
-		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
-
 		if titlein(getword("li"), text) and titlein(getword("exl"), text) and titlepos(getword("li"), text) > titlepos(getword("exl"), text):
-			feed = listend(text, getword("li"), srclist, nono, spaces)
+			feed = listend(text, getword("li"), srclist, nono)
 
 			text = text.split("\n")
 			if "===" in text[titleline(getword("li"), '\n'.join(text))]:

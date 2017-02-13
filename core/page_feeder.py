@@ -5,4 +5,9 @@ def loadpages(file):
 		print('error: file not found')
 		return
 
-	return f.read().splitlines()
+	pages = []
+
+	for line in f.read().splitlines():
+		if line != "":
+			pages.append(line)
+	return pages

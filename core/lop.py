@@ -26,7 +26,7 @@ def getword(id, lang=None):
 	if lang == None:
 		wl = globals()[config.lang]
 		return wl[id]
-	
+
 	wl = globals()[lang]
 	return wl[id]
 
@@ -34,7 +34,7 @@ def getwordlc(id, lang=None):
 	if lang == None:
 		wl = globals()[config.lang]
 		return wl[id].lower()
-	
+
 	wl = globals()[lang]
 	return wl[id].lower()
 
@@ -42,7 +42,7 @@ def getwordlcc(id, lang=None):
 	if lang == None:
 		wl = globals()[config.lang]
 		return wl[id].lower()+":"
-	
+
 	wl = globals()[lang]
 	return wl[id].lower()+":"
 
@@ -50,7 +50,7 @@ def getwordulc(id, lang=None):
 	if lang == None:
 		wl = globals()[config.lang]
 		return wl[id], wl[id].lower()
-	
+
 	wl = globals()[lang]
 	return wl[id], wl[id].lower()
 
@@ -58,7 +58,7 @@ def getwordc(id, lang=None):
 	if lang == None:
 		wl = globals()[config.lang]
 		return wl[id]+":"
-	
+
 	wl = globals()[lang]
 	return wl[id]+":"
 
@@ -132,40 +132,40 @@ def titlebefore(after, before, text, subtitles=True):
 				return False
 	return False
 
-def listend(text, title, listitems, nono, spaces):
+def listend(text, title, listitems, nono):
 	startpos = titleline(title, text)
 	endpos = titleline(title, text)
 	text = text.split("\n")
-	belows = text[startpos:len(text)-1]
+	belows = text[startpos:len(text)]
 	tries = 0
 	lasttemp = 0
 	listfound = False
-	lastvalid = None
 
 	for l in  range(0, len(belows)):
+
 		if l == 0:
 			continue
 
 		if anymatch(listitems, belows[l]):
 			listfound = True
-			lastvalid = len(text)-len(belows)+l
+			endpos = len(text)-len(belows)+l
 
 		if belows[l] == "":
 			tries += 1
-			lastvalid = len(text)-len(belows)+l-1
+
 		else:
 			tries = 0
 
 		if l == 3 and listfound == False:
-			endpos = len(text)-len(belows)
+			endpos = len(text)-len(belows)+l
 			break
 
-		if tries >= 2:
+		elif tries >= 2:
 			endpos = len(text)-len(belows)+l
 			break
 
 		if istitle(belows[l]) and "===" not in belows[l]:
-			endpos = len(text)-len(belows)+l-2
+			endpos = len(text)-len(belows)+l-1
 			break
 
 		if anymatch(listitems, belows[l]) and "{{" in belows[l] and anymatch(nono, belows[l]) == False:
@@ -173,18 +173,20 @@ def listend(text, title, listitems, nono, spaces):
 
 		if "}}" in belows[l] and lasttemp > 0:
 			lasttemp -= belows[l].count("}}")
+			endpos = len(text)-len(belows)+l
+			continue
+
+		elif "|" in belows[l] and lasttemp > 0:
+			endpos = len(text)-len(belows)+l
 			continue
 
 		if anymatch(nono, belows[l]):
-			endpos = len(text)-len(belows)+l-2
+			endpos = len(text)-len(belows)+l-1
 			break
 
 		if zeromatch(listitems, belows[l]) and listfound and l+1 != len(belows) and zeromatch(listitems, belows[l+1]):
-			endpos = len(text)-len(belows)+l-2
+			endpos = len(text)-len(belows)+l-1
 			break
-
-		if l == len(belows)-1 and lastvalid != None:
-			endpos = lastvalid
 
 	return startpos, endpos, listfound
 
@@ -204,7 +206,7 @@ def removefromlist(sec, listobj):
 			i += 1
 		else:
 			startpos = None
-			i = 0	
+			i = 0
 
 	for l in range(0, len(sec)):
 		listobj.pop(startpos)

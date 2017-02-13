@@ -29,9 +29,7 @@ class Algorithm:
 
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
-		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
-
-		feed = listend(text, getword("srcs"), srclist, nono, spaces)
+		feed = listend(text, getword("srcs"), srclist, nono)
 
 		if feed[1] != None and feed[2] == False:
 			self.error_count += 1
@@ -125,12 +123,9 @@ class Algorithm:
 
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
-		spaces = ["\n", "\t", "\b", "\a", "\r", ""]
-
-
 		text = text.split("\n")
 
-		feed0 = listend('\n'.join(text), getword("refs"), srclist, nono, spaces)
+		feed0 = listend('\n'.join(text), getword("refs"), srclist, nono)
 
 		refsec = '\n'.join(text[feed0[0]:feed0[1]+1])
 
@@ -139,13 +134,13 @@ class Algorithm:
 			text.pop(l-t)
 
 
-		feed = listend('\n'.join(text), getword("srcs"), srclist, nono, spaces)
+		feed = listend('\n'.join(text), getword("srcs"), srclist, nono)
 
 		if feed[1] != None:
 			nl0 = "\n"
 			nl1 = "\n"
 			self.error_count += 1
-			
+
 			text[feed[1]] = text[feed[1]]+nl0+refsec+"\n"+nl1
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"03"]

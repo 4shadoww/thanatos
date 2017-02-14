@@ -157,7 +157,6 @@ def listend(text, title, listitems, nono):
 			tries = 0
 
 		if l == 3 and listfound == False:
-			endpos = len(text)-len(belows)+l
 			break
 
 		elif tries >= 2:
@@ -171,12 +170,16 @@ def listend(text, title, listitems, nono):
 		if anymatch(listitems, belows[l]) and "{{" in belows[l] and anymatch(nono, belows[l]) == False:
 			lasttemp += belows[l].count("{{")
 
+		elif lasttemp > 0 and "{{" in belows[l]:
+			lasttemp += belows[l].count("{{")
+			
 		if "}}" in belows[l] and lasttemp > 0:
 			lasttemp -= belows[l].count("}}")
+			print(lasttemp, belows[l])
 			endpos = len(text)-len(belows)+l
 			continue
 
-		elif "|" in belows[l] and lasttemp > 0:
+		elif lasttemp > 0:
 			endpos = len(text)-len(belows)+l
 			continue
 

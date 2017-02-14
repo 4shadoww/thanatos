@@ -19,6 +19,9 @@ algorithms = ["ucc", "brfix",
 	"fixpiped", "replacesrc", "replaceseealso",
 	"replaceli", "fixreflist",]
 
+# Cat adder
+#algorithms = ["catadder"]
+
 # Ignore algorithms
 ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker"]
 

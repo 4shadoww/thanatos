@@ -6,8 +6,8 @@ class Algorithm:
 	error_count = 0
 
 	comments = {
-		"fi0": u"korjasi br tagin syntaksin tai korvasi sen {{clear}} mallinella",
-		"fi1": u"korjasi br tagien syntaksit tai korvasi ne {{clear}} mallinella",
+		"fi0": u"korjasi br tagin syntaksin tai korvasi sen {{clear}} mallineella",
+		"fi1": u"korjasi br tagien syntaksit tai korvasi ne {{clear}} mallineella",
 	}
 
 	def __init__(self):

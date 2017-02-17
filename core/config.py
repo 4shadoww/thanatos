@@ -8,7 +8,7 @@ enable_log = False
 review = True
 
 # Don't send changes to wikipedia
-test = False
+test = True
 
 # Algorithms execute order
 algorithms = ["ucc", "brfix",
@@ -26,7 +26,7 @@ algorithms = ["ucc", "brfix",
 ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker"]
 
 # Warnings
-warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp",]
+warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp", "titlewithoutcontent"]
 
 # Ignore warnings
 ignore_war = [""]

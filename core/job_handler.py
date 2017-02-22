@@ -126,9 +126,12 @@ def save_page(wpage, text, newtext, comments):
 
 	if newtext != text:
 		if config.review == True:
+			if warning.check(newtext, str(wpage)) and not config.pass_warnings or len(warnings) > 0 and not config.pass_warnings :
+				printwarnings()
+				addwarpage(wpage.title())
+				return
 			adiffer.show_diff(text, newtext)
 			print(colors.yellow+str(wpage)+": "+comments+colors.end)
-			warning.check(newtext, str(wpage))
 			printwarnings()
 			answer = input('do you agree these changes? [Y/N] ')
 			if answer == 'p':
@@ -147,6 +150,11 @@ def save_page(wpage, text, newtext, comments):
 			savethreads.append(pagesaver)
 
 		else:
+			if warning.check(newtext, str(wpage)) and not config.pass_warnings or len(warnings) > 0 and not config.pass_warnings :
+				printwarnings()
+				addwarpage(wpage.title())
+				return
+			printwarnings()
 			wpage.text = newtext
 			pagesaver = PageSaver(wpage, comments)
 			pagesaver.start()

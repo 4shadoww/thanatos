@@ -2,7 +2,7 @@ from core.lop import *
 
 class Warning:
 	wm = {
-	"fi": "tukematon viitteet malline",}
+	"fi": "tasolla 3 lähteet osio",}
 
 	error_count = 0
 
@@ -10,6 +10,8 @@ class Warning:
 		self.error_count = 0
 
 	def run(self, text):
-		if "<references>" in text:
-			self.error_count += 1
+		for line in text.split("\n"):
+			if titlein(getword("srcs"), line) and "===" in line:
+				self.error_count += 1
+
 		return self.error_count

@@ -5,10 +5,16 @@ lang = "fi"
 enable_log = False
 
 # Review mode
-review = True
+review = False
 
 # Don't send changes to wikipedia
-test = True
+test = False
+
+# Don't save if warnings
+pass_warnings = False
+
+# Log pages with warnings
+log_warnings = True
 
 # Algorithms execute order
 algorithms = ["ucc", "brfix",
@@ -26,7 +32,7 @@ algorithms = ["ucc", "brfix",
 ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker"]
 
 # Warnings
-warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp", "titlewithoutcontent"]
+warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp", "titlewithoutcontent", "level3srcs"]
 
 # Ignore warnings
 ignore_war = [""]

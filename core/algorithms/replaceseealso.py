@@ -8,6 +8,10 @@ class Algorithm:
 		"fi0": u"siirsi \"Katso myös\" -osion oikeaan kohtaan",
 	}
 
+	warnings = {
+		"fi00": "siirretty vain otsikko",
+	}
+
 	def __init__(self):
 		self.error_count = 0
 
@@ -24,6 +28,9 @@ class Algorithm:
 
 		if titlein(getword("seealso"), text) and titlein(getword("srcs"), text) and titlepos(getword("seealso"), text) > titlepos(getword("srcs"), text):
 			feed = listend(text, getword("seealso"), srclist, nono)
+
+			if feed[0] == feed[1]:
+				warning(self.warnings[config.lang+"00"])
 
 			text = text.split("\n")
 			seealsoec = text[feed[0]:feed[1]+1]

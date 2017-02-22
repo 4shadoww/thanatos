@@ -172,10 +172,9 @@ def listend(text, title, listitems, nono):
 
 		elif lasttemp > 0 and "{{" in belows[l]:
 			lasttemp += belows[l].count("{{")
-			
+
 		if "}}" in belows[l] and lasttemp > 0:
 			lasttemp -= belows[l].count("}}")
-			print(lasttemp, belows[l])
 			endpos = len(text)-len(belows)+l
 			continue
 

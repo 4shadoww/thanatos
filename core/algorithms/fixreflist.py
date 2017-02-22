@@ -13,6 +13,10 @@ class Algorithm:
 		"fi03": u"siirsi \"Viitteet\" -osion oikeaan kohtaan",
 	}
 
+	warnings = {
+		"fi00": "siirretty vain otsikko",
+	}
+
 	def __init__(self):
 		self.error_count = 0
 
@@ -30,6 +34,9 @@ class Algorithm:
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
 		feed = listend(text, getword("srcs"), srclist, nono)
+
+		if feed[0] == feed[1]:
+			warning(self.warnings[config.lang+"00"])
 
 		if feed[1] != None and feed[2] == False:
 			self.error_count += 1
@@ -127,6 +134,9 @@ class Algorithm:
 
 		feed0 = listend('\n'.join(text), getword("refs"), srclist, nono)
 
+		if feed0[0] == feed0[1]:
+			warning(self.warnings[config.lang+"00"])
+
 		refsec = '\n'.join(text[feed0[0]:feed0[1]+1])
 
 
@@ -135,6 +145,9 @@ class Algorithm:
 
 
 		feed = listend('\n'.join(text), getword("srcs"), srclist, nono)
+
+		if feed[0] == feed[1]:
+			warning(self.warnings[config.lang+"00"])
 
 		if feed[1] != None:
 			nl0 = "\n"
@@ -150,13 +163,7 @@ class Algorithm:
 		nono = ["<references/>", "<references />", "<references>",
 		"{{"+getword("refs"), "{{"+getwordlc("refs"), "{{reflist", "{{Reflist"]
 
-		if titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlebefore(getword("srcs"), getword("refs"), text, subtitles=False) == False:
-			text = self.addrefs3(text, article)
-
-		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlein(getword("li"), text) and titlebefore(getword("refs"), getword("li"), text, subtitles=False) == False:
-			text = self.addrefs3(text, article)
-
-		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and titlein(getword("exl"), text) and titlein(getword("li"), text) == False and titlebefore(getword("refs"), getword("exl"), text, subtitles=False) == False:
+		if titlein(getword("refs"), text) and titlein(getword("srcs"), text) and not titlebefore(getword("srcs"), getword("refs"), text, subtitles=False):
 			text = self.addrefs3(text, article)
 
 		if "<ref>" not in text and "</ref>" not in text:

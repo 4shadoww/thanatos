@@ -8,6 +8,10 @@ class Algorithm:
 		"fi0": u"siirsi \"Lähteet\" -osion oikeaan kohtaan",
 	}
 
+	warnings = {
+		"fi00": "siirretty vain otsikko",
+	}
+
 	def __init__(self):
 		self.error_count = 0
 
@@ -27,6 +31,10 @@ class Algorithm:
 		if titlein(getword("srcs"), text) and titlein(getword("exl"), text) and titlepos(getword("srcs"), text) > titlepos(getword("exl"), text) or titlein(getword("srcs"), text) and titlein(getword("li"), text) and titlepos(getword("srcs"), text) > titlepos(getword("li"), text):
 
 			feed = listend(text, getword("srcs"), srclist, nono)
+
+			if feed[0] == feed[1]:
+				warning(self.warnings[config.lang+"00"])
+
 			text = text.split("\n")
 			srcsec = text[feed[0]:feed[1]+1]
 

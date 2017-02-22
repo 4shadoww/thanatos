@@ -5,8 +5,11 @@ import sys
 
 time = datetime.datetime.now()
 logfilename = str(time)
-if config.enable_log == True:
+if config.enable_log:
 	logfile = open('core/log/'+logfilename+'.log', 'a')
+
+if config.log_warnings:
+	warfile = open('core/log/warnings.log', 'a')
 
 def printlog(*message, end='\n'):
 	finalmessage = ""
@@ -48,7 +51,7 @@ def printwarnings():
 	for war in warnings:
 		sys.stdout.write(colors.red+"warning: "+war+colors.end+"\n")
 		log(war)
-	warnings = []
+	del warnings[:]
 
 def debug(*message, end='\n'):
 	finalmessage = ""
@@ -59,3 +62,6 @@ def debug(*message, end='\n'):
 
 	sys.stdout.write(finalmessage+end)
 	log(finalmessage)
+def addwarpage(page):
+	warfile.flush()
+	warfile.write(page+"\n")

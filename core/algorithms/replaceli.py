@@ -8,6 +8,10 @@ class Algorithm:
 		"fi0": u"siirsi \"Kirjallisuutta\" -osion oikeaan kohtaan",
 	}
 
+	warnings = {
+		"fi00": "siirretty vain otsikko",
+	}
+
 	def __init__(self):
 		self.error_count = 0
 
@@ -23,6 +27,8 @@ class Algorithm:
 
 		if titlein(getword("li"), text) and titlein(getword("exl"), text) and titlepos(getword("li"), text) > titlepos(getword("exl"), text):
 			feed = listend(text, getword("li"), srclist, nono)
+			if feed[0] == feed[1]:
+				warning(self.warnings[config.lang+"00"])
 
 			text = text.split("\n")
 			if "===" in text[titleline(getword("li"), '\n'.join(text))]:

@@ -5,15 +5,21 @@
 from core import config
 from core import create_comment
 import traceback
+from core import warning
+from core import log
 
 def run(text, page, algorithms):
 	try:
 		zeroedit = True
 		edit_comments = []
+		comments = ""
+		if warning.precheck(text, str(page)):
+			log.addwarpage(page.title())
+			return text, comments, zeroedit
 		for algorithm in algorithms:
 			algorithm.__init__()
 			data = algorithm.run(text, page)
-			
+
 			if data[1] == 1 and algorithm.comments[config.lang+"0"] not in edit_comments and text != data[0]:
 				edit_comments.append(algorithm.comments[config.lang+"0"])
 

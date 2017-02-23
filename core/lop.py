@@ -110,7 +110,7 @@ def abandop(items, match):
 def istitle(title):
 	titles = re.findall(r"\=.*\=", title)
 
-	if len(titles) > 0 and re.sub('[^a-zA-Z0-9åäöÅÄÖ]', '', titles[0]) == re.sub('[^a-zA-Z0-9åäöÅÄÖ]', '', title):
+	if len(titles) == 1 and re.sub('[^a-zA-Z0-9åäöÅÄÖ]', '', titles[0]) == re.sub('[^a-zA-Z0-9åäöÅÄÖ]', '', title):
 		return True
 
 	return False
@@ -214,3 +214,41 @@ def removefromlist(sec, listobj):
 		listobj.pop(startpos)
 
 	return listobj
+
+def tagwithoutend(text):
+	looking4end = []
+	tags = re.findall("<.*?>", text)
+	for tag in tags:
+		data = re.sub('[^a-zA-Z0-9 ]', ' ', tag).split()
+		if len(data) > 0 and "/" not in tag:
+			looking4end.append(data[0])
+		elif len(data) > 0 and "/" in tag:
+			for l, starttag in enumerate(looking4end):
+				if starttag == data[0]:
+					looking4end.pop(l)
+
+	if len(looking4end) > 0:
+		return True
+	return False
+
+def getsec(text):
+	secs = []
+	cut = False
+	for l in  range(0, len(text)):
+		thread_header = re.search('^== *([^=].*?) *== *$', text[l])
+		if thread_header:
+			if cut == True:
+				secs.append(text[start:l])
+			start = l
+			cut = True
+		elif len(text)-1 == l:
+			secs.append(text[start:l])
+	return secs
+
+def insec(string, secn, text):
+	text = text.split("\n")
+	secs = getsec(text)
+	for sec in secs:
+		if string in '\n'.join(sec) and sec[0].replace("==", "") == secn:
+			return True
+	return False

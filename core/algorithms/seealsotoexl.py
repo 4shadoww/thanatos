@@ -11,6 +11,7 @@ class Algorithm:
 	warnings = {
 		"fic": "aihessta muualla osio ristiriita",
 		"fi00": "siirretty vain otsikko",
+		"fi01": "tagi ilman loppua",
 	}
 
 	def __init__(self):
@@ -31,6 +32,9 @@ class Algorithm:
 
 			if feed[0] == feed[1]:
 				warning(self.warnings[config.lang+"00"])
+
+			if tagwithoutend('\n'.join(text[feed[0]:feed[1]])):
+				warning(self.warnings[config.lang+"01"])
 
 			text = text.split("\n")
 			seealsosec = '\n'.join(text[feed[0]:feed[1]+1])

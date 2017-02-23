@@ -15,6 +15,7 @@ class Algorithm:
 
 	warnings = {
 		"fi00": "siirretty vain otsikko",
+		"fi01": "tagi ilman loppua",
 	}
 
 	def __init__(self):
@@ -29,11 +30,14 @@ class Algorithm:
 		getwordlc("nref"), getword("nref"),
 		getwordlc("commons"), getword("commons"),
 		"{{"+getword("refs"), "{{"+getwordlc("refs"),
-		"<references"]
+		"<references", "{{Käännös|", "{{käännös|"]
 
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
 		feed = listend(text, getword("srcs"), srclist, nono)
+
+		if tagwithoutend('\n'.join(text[feed[0]:feed[1]])):
+			warning(self.warnings[config.lang+"01"])
 
 		if feed[0] == feed[1]:
 			warning(self.warnings[config.lang+"00"])
@@ -126,7 +130,7 @@ class Algorithm:
 		getwordlc("nref"), getword("nref"),
 		getwordlc("commons"), getword("commons"),
 		"{{"+getword("refs"), "{{"+getwordlc("refs"),
-		"<references"]
+		"<references", "{{Käännös|", "{{käännös|"]
 
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
@@ -145,6 +149,9 @@ class Algorithm:
 
 
 		feed = listend('\n'.join(text), getword("srcs"), srclist, nono)
+
+		if tagwithoutend('\n'.join(text[feed[0]:feed[1]])):
+			warning(self.warnings[config.lang+"01"])
 
 		if feed[0] == feed[1]:
 			warning(self.warnings[config.lang+"00"])

@@ -10,6 +10,7 @@ class Algorithm:
 
 	warnings = {
 		"fi00": "siirretty vain otsikko",
+		"fi01": "tagi ilman loppua",
 	}
 
 	def __init__(self):
@@ -25,7 +26,7 @@ class Algorithm:
 		getwordlc("commons"), getword("commons"),
 		"{{"+getword("refs"), "{{"+getwordlc("refs"),
 		"<references/>", "<references />",
-		"==="+getword("refs")+"==="]
+		"==="+getword("refs")+"===", "{{Käännös|", "{{käännös|"]
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
 		if titlein(getword("srcs"), text) and titlein(getword("exl"), text) and titlepos(getword("srcs"), text) > titlepos(getword("exl"), text) or titlein(getword("srcs"), text) and titlein(getword("li"), text) and titlepos(getword("srcs"), text) > titlepos(getword("li"), text):
@@ -34,6 +35,9 @@ class Algorithm:
 
 			if feed[0] == feed[1]:
 				warning(self.warnings[config.lang+"00"])
+
+			if tagwithoutend('\n'.join(text[feed[0]:feed[1]])):
+				warning(self.warnings[config.lang+"01"])
 
 			text = text.split("\n")
 			srcsec = text[feed[0]:feed[1]+1]

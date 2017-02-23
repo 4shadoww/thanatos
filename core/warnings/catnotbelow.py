@@ -16,7 +16,7 @@ class Warning:
 		for line in text:
 			if getwordc("cat") in line or getwordlcc("cat") in line:
 				foundcat = True
-			elif foudcat and line != "":
+			elif foundcat and line != "":
 				self.error_count += 1
-				return
+				return self.error_count
 		return self.error_count

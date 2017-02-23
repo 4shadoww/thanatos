@@ -63,5 +63,6 @@ def debug(*message, end='\n'):
 	sys.stdout.write(finalmessage+end)
 	log(finalmessage)
 def addwarpage(page):
-	warfile.flush()
-	warfile.write(page+"\n")
+	if config.log_warnings:
+		warfile.flush()
+		warfile.write(page+"\n")

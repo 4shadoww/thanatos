@@ -10,6 +10,7 @@ class Algorithm:
 
 	warnings = {
 		"fi00": "siirretty vain otsikko",
+		"fi01": "tagi ilman loppua",
 	}
 
 	def __init__(self):
@@ -29,6 +30,9 @@ class Algorithm:
 			feed = listend(text, getword("li"), srclist, nono)
 			if feed[0] == feed[1]:
 				warning(self.warnings[config.lang+"00"])
+
+			if tagwithoutend('\n'.join(text[feed[0]:feed[1]])):
+				warning(self.warnings[config.lang+"01"])
 
 			text = text.split("\n")
 			if "===" in text[titleline(getword("li"), '\n'.join(text))]:

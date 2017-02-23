@@ -22,7 +22,7 @@ algorithms = ["ucc", "brfix",
 	"textinen", "seealsotoexl", "twovlines",
 	"typofix", "reftosrc", "titlelevel",
 	"refstemp", "fix2brackets", "filedelinker",
-	"fixpiped", "replacesrc", "replaceseealso",
+	"fixpiped", "replacecomms", "replacesrc", "replaceseealso",
 	"replaceli", "fixreflist",]
 
 # Cat adder
@@ -32,7 +32,13 @@ algorithms = ["ucc", "brfix",
 ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker"]
 
 # Warnings
-warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp", "titlewithoutcontent", "level3srcs"]
+warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp", "titlewithoutcontent", "level3srcs", "catnotbelow", "toomanyrefs"]
 
 # Ignore warnings
 ignore_war = [""]
+
+# Precheck warnings
+pre_war = ["notvalidsec"]
+
+# Ignore precheck
+pre_ignore = []

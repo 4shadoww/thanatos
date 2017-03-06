@@ -5,16 +5,16 @@ lang = "fi"
 enable_log = False
 
 # Review mode
-review = False
+review = True
 
 # Don't send changes to wikipedia
 test = False
 
 # Don't save if warnings
-pass_warnings = False
+pass_warnings = True
 
 # Log pages with warnings
-log_warnings = True
+log_warnings = False
 
 # Algorithms execute order
 algorithms = ["ucc", "brfix",

@@ -22,7 +22,7 @@ class Algorithm:
 					break
 			if template != None:
 				self.error_count += 1
-				text[titleline(getword("exl"), '\n'.join(text))] = text[titleline(getword("exl"), '\n'.join(text))] +"\n"+template+"\n"
+				text[titleline(getword("exl"), '\n'.join(text))] = text[titleline(getword("exl"), '\n'.join(text))] +"\n"+template
 			text = '\n'.join(text)
 
 		return text, self.error_count

@@ -126,10 +126,11 @@ def titlebefore(after, before, text, subtitles=True):
 		if titlein(before, line) and nextref:
 			return True
 		elif istitle(line) and nextref:
-			if subtitles == False and "===" not in line:
+			if not subtitles and  line.count("=") <= 4:
 				return False
-			elif subtitles == True:
+			elif subtitles:
 				return False
+
 	return False
 
 def listend(text, title, listitems, nono):

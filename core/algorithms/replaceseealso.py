@@ -40,15 +40,11 @@ class Algorithm:
 			seealsoec = text[feed[0]:feed[1]+1]
 			text = removefromlist(seealsoec, text)
 
-			if seealsoec[len(seealsoec)-1] != "":
-				seealsoec.append("")
-
-			if seealsoec[len(seealsoec)-2] != "":
-				seealsoec.append("")
-
+			n1 = "\n"
 			seealsoec = '\n'.join(seealsoec)
-
-			text[titleline(getword("srcs"), '\n'.join(text))] = seealsoec+text[titleline(getword("srcs"), '\n'.join(text))]
+			if text[titleline(getword("srcs"), '\n'.join(text))-1] == "":
+				n1 = ""
+			text[titleline(getword("srcs"), '\n'.join(text))] = n1+seealsoec+"\n\n"+text[titleline(getword("srcs"), '\n'.join(text))]
 			text = '\n'.join(text)
 			self.error_count += 1
 

@@ -126,7 +126,7 @@ def save_page(wpage, text, newtext, comments):
 
 	if newtext != text:
 		if config.review == True:
-			if not config.pass_warnings and len(warnings) > 0 and warning.check(newtext, str(wpage)):
+			if not config.pass_warnings and len(warnings) > 0 or not config.pass_warnings and  warning.check(newtext, str(wpage)):
 				printwarnings()
 				addwarpage(wpage.title())
 				return
@@ -151,7 +151,7 @@ def save_page(wpage, text, newtext, comments):
 			savethreads.append(pagesaver)
 
 		else:
-			if not config.pass_warnings and len(warnings) > 0 and warning.check(newtext, str(wpage)):
+			if not config.pass_warnings and len(warnings) > 0 or not config.pass_warnings and  warning.check(newtext, str(wpage)):
 				printwarnings()
 				addwarpage(wpage.title())
 				return

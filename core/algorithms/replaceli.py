@@ -41,17 +41,11 @@ class Algorithm:
 
 			exlec = text[feed[0]:feed[1]+1]
 			text = removefromlist(exlec, text)
-
-			if exlec[len(exlec)-1] != "":
-				exlec.append("")
-
-			if exlec[len(exlec)-2] != "":
-				exlec.append("")
-
+			n1 = "\n"
 			exlec = '\n'.join(exlec)
-
-
-			text[titleline(getword("exl"), '\n'.join(text))] = exlec+text[titleline(getword("exl"), '\n'.join(text))]
+			if text[titleline(getword("exl"), '\n'.join(text))-1] == "":
+				n1 = ""
+			text[titleline(getword("exl"), '\n'.join(text))] = n1+exlec+"\n\n"+text[titleline(getword("exl"), '\n'.join(text))]
 			text = '\n'.join(text)
 			self.error_count += 1
 

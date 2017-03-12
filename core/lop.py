@@ -70,6 +70,13 @@ def titlein(title, text):
 
 	return False
 
+def titleis(title, text):
+	titles = re.findall(r"=(?!=)(.+?)(=+?)", text)[0]
+	if titles[0] == title:
+		return True
+
+	return False
+
 def titlepos(title, text):
 	titles = re.findall(r"\=.*\=", text)
 	for i in titles:

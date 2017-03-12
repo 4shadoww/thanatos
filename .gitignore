@@ -6,3 +6,4 @@ throttle.ctrl
 pywikibot.lwp
 core/articles/*
 logs/
+core/testarticles

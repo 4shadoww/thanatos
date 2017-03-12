@@ -35,7 +35,7 @@ class Algorithm:
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
 		feed = listend(text, getword("srcs"), srclist, nono)
-
+		print(feed)
 		if tagwithoutend('\n'.join(text[feed[0]:feed[1]])):
 			warning(self.warnings[config.lang+"01"])
 
@@ -54,15 +54,15 @@ class Algorithm:
 
 		elif feed[1] != None and feed[2]:
 			nl0 = "\n"
-			nl1 = "\n"
+			nl1 = ""
 			self.error_count += 1
 			text = text.split("\n")
-			if text[feed[1]-1] == "":
-				nl0 = ""
 			if text[feed[1]] != "":
-				nl1 += "\n"
-
-			text[feed[1]] = nl0+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1+text[feed[1]]
+				nl0 = "\n\n"
+			if text[feed[1]+1] != "":
+				nl1 += "\n\n"
+				
+			text[feed[1]] = text[feed[1]]+"\n\n"+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"00"]
 

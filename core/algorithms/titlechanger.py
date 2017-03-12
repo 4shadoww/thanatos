@@ -18,16 +18,17 @@ class Algorithm:
 
 	def run(self, text, article):
 		titles2change = [["Ulkoiset linkit", "Aiheesta muualla"], ["Ulkoiset linkit:", "Aiheesta muualla"], ["Asiasta muualla", "Aiheesta muualla"],
-		["Lähteet:", "Lähteet"], ["lähteet:", "Lähteet"], ["Viitteet:", "Viitteet"]]
+		["Lähteet:", "Lähteet"], ["lähteet:", "Lähteet"], ["Lähde:", "Lähteet"], ["Lähde", "Lähteet"], ["Viitteet:", "Viitteet"]]
 
 		text = text.split("\n")
 		i = 0
 		for line in text:
 			for title in titles2change:
-				if istitle(line) and titlein(title[0], line):
-					if text.count("=") == 4:
-						text[i] = "=="+title[0]+"=="
+				if istitle(line) and titleis(title[0], line):
+					if line.count("=") == 4:
+						text[i] = "=="+title[1]+"=="
 						self.error_count += 1
+						break
 					else:
 						warning(self.warnings[config.lang+"0"])
 			i += 1

@@ -1,11 +1,8 @@
 # Import python modules
 import importlib
-from core import config
+import core.config
 
-# Import core modules
-from core.config import *
-
-def load_algorithms():
+def load_algorithms(algorithms=core.config.algorithms, ignore=core.config.ignore):
 	objects = []
 
 	for algorithm in algorithms:

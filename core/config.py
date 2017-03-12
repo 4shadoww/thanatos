@@ -18,7 +18,7 @@ log_warnings = False
 
 # Algorithms execute order
 algorithms = ["ucc", "brfix",
-	"centerfix", "smallfix",
+	"centerfix", "smallfix", "titlechanger",
 	"textinen", "seealsotoexl", "twovlines",
 	"typofix", "reftosrc", "titlelevel",
 	"refstemp", "fix2brackets", "filedelinker",

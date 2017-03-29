@@ -18,7 +18,7 @@ class Algorithm:
 
 	def run(self, text, article):
 		titles2change = [["Ulkoiset linkit", "Aiheesta muualla"], ["Ulkoiset linkit:", "Aiheesta muualla"], ["Asiasta muualla", "Aiheesta muualla"],
-		["Lähteet:", "Lähteet"], ["lähteet:", "Lähteet"], ["Lähde:", "Lähteet"], ["Lähde", "Lähteet"], ["Viitteet:", "Viitteet"]]
+		["Lähteet:", "Lähteet"], ["lähteet:", "Lähteet"], ["Lähde:", "Lähteet"], ["Lähde", "Lähteet"], ["Lähdeviitteet", "Lähteet"] ["Viitteet:", "Viitteet"]]
 
 		text = text.split("\n")
 		i = 0

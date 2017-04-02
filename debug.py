@@ -16,7 +16,9 @@ from core import colors
 from core.log import *
 from core import warning
 
-test_algorithms = ["ucc", "brfix",
+test_algorithms = ["titlechanger",]
+
+test_algorithms1 = ["ucc", "brfix",
 	"centerfix", "smallfix", "titlechanger",
 	"textinen", "seealsotoexl", "twovlines",
 	"typofix", "reftosrc", "titlelevel",

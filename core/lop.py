@@ -72,7 +72,8 @@ def titlein(title, text):
 
 def titleis(title, text):
 	titles = re.findall(r"=(?!=)(.+?)(=+?)", text)[0]
-	if titles[0] == title:
+
+	if titles[0].lstrip().rstrip() == title:
 		return True
 
 	return False

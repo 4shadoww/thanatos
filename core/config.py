@@ -32,7 +32,7 @@ algorithms = ["ucc", "brfix",
 ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker"]
 
 # Warnings
-warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp", "titlewithoutcontent", "level3srcs", "catnotbelow", "toomanyrefs"]
+warnings = ["refsec", "secorder", "srcsrefsec", "danreftemp", "titlewithoutcontent", "level3srcs", "catnotbelow", "toomanyrefs", "comments"]
 
 # Ignore warnings
 ignore_war = [""]

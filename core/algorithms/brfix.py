@@ -14,8 +14,17 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		errorlist = re.findall(r"\<.*?\>", text)
+		pattern = r"\<.*?\>"
+		parsedtext = wtparser.parse(text)
+		text = list(text)
+		print(''.join(text))
+		errorlist = refindall(pattern, parsedtext)
+		print(errorlist)
+		text = replacepos("fixed", text, errorlist[3][0], errorlist[3][1])
+		print(''.join(text))
+		return
 		nono = ['abbr', 'wbr', 'ref', '<!--']
+
 		for item in errorlist:
 			if andop(nono, item) == False and istag("br", item):
 				if 'clear' in item and '=' in item:

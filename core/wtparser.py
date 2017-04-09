@@ -12,7 +12,6 @@ def startat(string, starting):
 
 def parse_comments(text):
 	comments = re.findall("<!--.*?-->", text, re.DOTALL)
-	print(comments)
 	for comment in comments:
 		spos = startat(comment, "<!--")
 		epos = endat(comment[spos:], "-->")

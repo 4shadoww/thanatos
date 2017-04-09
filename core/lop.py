@@ -261,3 +261,15 @@ def insec(string, secn, text):
 		if string in '\n'.join(sec) and sec[0].replace("==", "") == secn:
 			return True
 	return False
+
+def refindall(pattern, text):
+	positions = []
+	for m in re.finditer(pattern, text):
+		positions.append([m.start(0), m.end(0), text[m.start(0):m.end(0)]])
+	return positions
+
+def replacepos(string, text, start, end):
+	length = end - start
+	for i in range(length):
+		text.pop(start)
+	return text

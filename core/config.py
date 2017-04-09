@@ -22,8 +22,8 @@ algorithms = ["ucc", "brfix",
 	"textinen", "seealsotoexl", "twovlines",
 	"typofix", "reftosrc", "titlelevel",
 	"refstemp", "fix2brackets", "filedelinker",
-	"fixpiped", "replacecomms", "replacesrc", "replaceseealso",
-	"replaceli", "fixreflist",]
+	"fixpiped", "fixreflist", "replacecomms", "replacesrc", "replaceseealso",
+	"replaceli",]
 
 # Cat adder
 #algorithms = ["catadder"]

@@ -16,17 +16,17 @@ from core import colors
 from core.log import *
 from core import warning
 
-test_algorithms = ["titlechanger",]
+test_algorithms = ["replacesrc",]
 
-test_algorithms1 = ["ucc", "brfix",
+test_algorithms = ["ucc", "brfix",
 	"centerfix", "smallfix", "titlechanger",
 	"textinen", "seealsotoexl", "twovlines",
 	"typofix", "reftosrc", "titlelevel",
 	"refstemp", "fix2brackets", "filedelinker",
-	"fixpiped", "replacecomms", "replacesrc", "replaceseealso",
-	"replaceli", "fixreflist",]
+	"fixpiped", "fixreflist", "replacecomms", "replacesrc", "replaceseealso",
+	"replaceli",]
 
-test_ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker"]
+test_ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker",]
 
 def main(file):
 	printblank = False

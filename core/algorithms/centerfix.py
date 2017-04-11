@@ -13,8 +13,7 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parsedtext = wtparser.parse(text)
-		errorlist = re.findall(r"\<.*?\>", parsedtext)
+		errorlist = re.findall(r"\<.*?\>", text)
 		for item in errorlist:
 			if istag("center", item):
 				if '/' in item and item != '</center>':

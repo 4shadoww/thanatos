@@ -1,32 +1,52 @@
 import re
+import string
+import random
 
-def endat(string, ending):
-	if string.endswith(ending):
-		return len(string)-len(ending)
-	return 0
+class Parser:
 
-def startat(string, starting):
-	if string.startswith(starting):
-		return len(starting)
-	return 0
+	data_holder = []
 
-def parse_comments(text):
-	comments = re.findall("<!--.*?-->", text, re.DOTALL)
-	for comment in comments:
-		spos = startat(comment, "<!--")
-		epos = endat(comment[spos:], "-->")
+	def id_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
+		return ''.join(random.choice(chars) for _ in range(size))
 
-		cdata = list(comment)
+	def unid(self):
+		objectid = None
+		while True:
+			objectid = self.id_generator()
+			if len(self.data_holder) == 0 or any(objectid != i[0] for i in self.data_holder):
+				break
+		return objectid
 
-		for i in range(epos):
-			if cdata[spos+i] != "\n":
-				cdata[spos+i] = "#"
+	def thanatosid(self, string):
+		return "THANATOS_ID="+self.unid()
 
-		parsed_comment = ''.join(cdata)
-		text = text.replace(comment, parsed_comment)
+	def endat(self, string, ending):
+		if string.endswith(ending):
+			return len(string)-len(ending)
+		return 0
 
-	return text
+	def startat(self, string, starting):
+		if string.startswith(starting):
+			return len(starting)
+		return 0
 
-def parse(text):
-	text = parse_comments(text)
-	return text
+	def parse_comments(self, text):
+		comments = re.findall("<!--.*?-->", text, re.DOTALL)
+		for comment in comments:
+			parsedcomment = self.thanatosid(comment)
+			self.data_holder.append([parsedcomment, comment])
+			text = text.replace(comment, parsedcomment)
+
+		return text
+
+	def parse(self, text):
+		text = self.parse_comments(text)
+		return text
+
+	def deparse(self, text):
+		for i in self.data_holder:
+			text = text.replace(i[0], i[1])
+		return text
+
+	def clear(self):
+		self.data_holder = []

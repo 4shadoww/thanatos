@@ -269,7 +269,36 @@ def refindall(pattern, text):
 	return positions
 
 def replacepos(string, text, start, end):
-	length = end - start
+	length = end - start - 1
 	for i in range(length):
 		text.pop(start)
+	text[start] = string
+	text = ''.join(text)
+	text = list(text)
 	return text
+
+def reupdatelist(positions, text):
+	# This isn't working. Yet, or never.
+	for i in range(len(positions)):
+		matches = re.finditer(positions[i][2], text)
+		if len(list(matches)) > 1:
+			ind = 0
+			for m in re.finditer(positions[i][2], text):
+				while True:
+					print(positions[i+ind][2], text[m.start(0):m.end(0)])
+					if len(positions) <= i+ind:
+						print("error: failed to update list!")
+						break
+
+					if positions[i+ind][2] == text[m.start(0):m.end(0)]:
+						print("dis")
+						positions[i+ind][0] = m.start(0)
+						positions[i+ind][1] = m.end(0)
+						break
+					ind += 1
+
+		else:
+			for m in re.finditer(positions[i][2], text):
+				print("update")
+				positions[i][0] = positions[i][0] = m.start(0)
+				positions[i][1] = positions[i][1] = m.end(0)

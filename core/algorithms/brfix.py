@@ -14,17 +14,10 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		pattern = r"\<.*?\>"
-		parsedtext = wtparser.parse(text)
-		text = list(text)
-		print(''.join(text))
-		errorlist = refindall(pattern, parsedtext)
-		print(errorlist)
-		text = replacepos("fixed", text, errorlist[3][0], errorlist[3][1])
-		print(''.join(text))
-		return
+		parser = wtparser.Parser()
+		text = parser.parse(text)
+		errorlist = re.findall(r"\<.*?\>", text)
 		nono = ['abbr', 'wbr', 'ref', '<!--']
-
 		for item in errorlist:
 			if andop(nono, item) == False and istag("br", item):
 				if 'clear' in item and '=' in item:
@@ -44,4 +37,5 @@ class Algorithm:
 					text = text.replace(item, '<br>')
 					self.error_count += 1
 
+		text = parser.deparse(text)
 		return text, self.error_count

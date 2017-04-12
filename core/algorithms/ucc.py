@@ -14,7 +14,12 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self,text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
+
 		newtext = html.unescape(text)
 		if newtext != text:
 			self.error_count = 1
+
+		text = parser.deparse(text)
 		return newtext, self.error_count

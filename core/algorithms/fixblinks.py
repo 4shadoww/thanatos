@@ -15,6 +15,8 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
 		linkpartlist = []
 		fixedlinks = []
 		invalidlinks = []
@@ -58,5 +60,5 @@ class Algorithm:
 					fixedlinks.append(link)
 					invalidlinks.append(orglink)
 					text = text.replace(orglink, link)
-
+		text = parser.deparse(text)
 		return text, self.error_count

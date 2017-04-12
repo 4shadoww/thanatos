@@ -12,6 +12,8 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
 		template = None
 		if "{{commonscat|" in text and titlein(getword("exl"), text) and not insec("{{commonscat|", getword("exl"), text) or "{{Commonscat|" in text and titlein(getword("exl"), text) and not insec("{{Commonscat|", getword("exl"), text):
 			text = text.split("\n")
@@ -25,4 +27,5 @@ class Algorithm:
 				text[titleline(getword("exl"), '\n'.join(text))] = text[titleline(getword("exl"), '\n'.join(text))] +"\n"+template
 			text = '\n'.join(text)
 
+		text = parser.deparse(text)
 		return text, self.error_count

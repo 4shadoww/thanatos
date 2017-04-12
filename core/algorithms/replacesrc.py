@@ -17,6 +17,9 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
+
 		srclist = ["*", "{{IMDb-h", "#",
 		getwordlc("bref"), getword("bref"),
 		getwordlc("wref"), getword("wref"),
@@ -43,7 +46,7 @@ class Algorithm:
 			srcsec = text[feed[0]:feed[1]+1]
 
 			text = removefromlist(srcsec, text)
-
+			print(text)
 			srcsec = '\n'.join(srcsec)
 			n1 = "\n"
 
@@ -58,4 +61,5 @@ class Algorithm:
 			text = '\n'.join(text)
 			self.error_count += 1
 
+		text = parser.deparse(text)
 		return text, self.error_count

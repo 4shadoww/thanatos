@@ -13,4 +13,9 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
+
+
+		text = parser.deparse(text)
 		return text, self.error_count

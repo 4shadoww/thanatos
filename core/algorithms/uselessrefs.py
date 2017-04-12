@@ -13,6 +13,9 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
+
 		nono = ["{{iihfranking"]
 		if text.count("<ref/>") == 0 and text.count("<ref />") == 0 and text.count("<ref>") == 0:
 			self.error_count += 1
@@ -37,4 +40,5 @@ class Algorithm:
 						text.pop(l)
 						break
 			text = '\n'.join(text)
+		text = parser.deparse(text)
 		return text, self.error_count

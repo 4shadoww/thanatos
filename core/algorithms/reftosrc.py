@@ -15,6 +15,8 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
 		textlist = text.split('\n')
 		for l, line in enumerate(textlist):
 			matches = re.findall(r"\=.*\=", line)
@@ -38,4 +40,5 @@ class Algorithm:
 		elif self.error_count > 0 and error == 1:
 			self.comments[config.lang+"0"] = self.comments[config.lang+"01"]
 
+		text = parser.deparse(text)
 		return text, self.error_count

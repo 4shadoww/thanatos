@@ -17,6 +17,9 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
+
 		titles2change = [["Ulkoiset linkit", "Aiheesta muualla"], ["Ulkoiset linkit:", "Aiheesta muualla"], ["Asiasta muualla", "Aiheesta muualla"],
 		["Lähteet:", "Lähteet"], ["lähteet:", "Lähteet"], ["Lähde:", "Lähteet"], ["Lähde", "Lähteet"], ["Lähdeviitteet", "Lähteet"], ["Viitteet:", "Viitteet"],]
 
@@ -33,4 +36,5 @@ class Algorithm:
 						warning(self.warnings[config.lang+"0"])
 			i += 1
 		text = '\n'.join(text)
+		text = parser.deparse(text)
 		return text, self.error_count

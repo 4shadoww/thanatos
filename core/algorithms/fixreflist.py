@@ -61,7 +61,7 @@ class Algorithm:
 				nl0 = "\n\n"
 			if text[feed[1]+1] != "":
 				nl1 += "\n\n"
-				
+
 			text[feed[1]] = text[feed[1]]+"\n\n"+"==="+getword("refs")+"===\n"+"{{"+getword("refs")+"}}"+nl1
 			text = '\n'.join(text)
 			self.comments[config.lang+"0"] = self.comments[config.lang+"00"]
@@ -167,6 +167,8 @@ class Algorithm:
 		return text
 
 	def run(self, text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
 		nono = ["<references/>", "<references />", "<references>",
 		"{{"+getword("refs"), "{{"+getwordlc("refs"), "{{reflist", "{{Reflist"]
 
@@ -186,5 +188,5 @@ class Algorithm:
 
 		elif titlein(getword("srcs"), text) == False:
 			text = self.addrefs1(text, article)
-
+		text = parser.deparse(text)
 		return text, self.error_count

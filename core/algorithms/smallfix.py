@@ -13,6 +13,8 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
+		parser = wtparser.Parser()
+		text = parser.parse(text)
 		errorlist = re.findall(r"\<.*?\>", text)
 		for item in errorlist:
 			if istag("small", item):
@@ -23,4 +25,5 @@ class Algorithm:
 					text = text.replace(item, '<small>')
 					self.error_count += 1
 
+		text = parser.deparse(text)
 		return text, self.error_count

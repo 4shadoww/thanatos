@@ -3,6 +3,7 @@ from core.algcore import *
 class Algorithm:
 	zeroedit = False
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"poisti ylimääräiset hakasulkeet ulkoisesta linkistä",
@@ -15,8 +16,7 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
+
 		nono = [getwordc("file"), getwordc("file", lang="en"), getwordc("img"), getwordc("img", lang="en")]
 
 		textlist = text.split('\n')
@@ -30,5 +30,5 @@ class Algorithm:
 						self.error_count += 1
 
 		text = '\n'.join(textlist)
-		text = parser.deparse(text)
+
 		return text, self.error_count

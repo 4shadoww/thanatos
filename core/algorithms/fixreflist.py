@@ -4,6 +4,7 @@ import re
 class Algorithm:
 	zeroedit = False
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"",
@@ -167,8 +168,6 @@ class Algorithm:
 		return text
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
 		nono = ["<references/>", "<references />", "<references>",
 		"{{"+getword("refs"), "{{"+getwordlc("refs"), "{{reflist", "{{Reflist"]
 
@@ -176,11 +175,9 @@ class Algorithm:
 			text = self.addrefs3(text, article)
 
 		if "<ref>" not in text and "</ref>" not in text:
-			text = parser.deparse(text)
 			return text, self.error_count
 
 		if andop(nono, text):
-			text = parser.deparse(text)
 			return text, self.error_count
 
 		elif titlein(getword("refs"), text) and titlein(getword("srcs"), text) and "{{"+getword("refs") not in text and "{{"+getwordlc("refs") not in text:
@@ -191,6 +188,5 @@ class Algorithm:
 		elif titlein(getword("srcs"), text) == False:
 			text = self.addrefs1(text, article)
 
-		text = parser.deparse(text)
 
 		return text, self.error_count

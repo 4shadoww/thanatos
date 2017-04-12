@@ -5,6 +5,7 @@ from topy import topy
 class Algorithm:
 	zeroedit = False
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"korjasi typon",
@@ -15,12 +16,10 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
 
 		oldtext = text
 		text = topy.fixtypo(text)
 		if text != oldtext:
 			self.error_count += 1
-		text = parser.deparse(text)
+
 		return text, self.error_count

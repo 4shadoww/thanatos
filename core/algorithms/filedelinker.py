@@ -5,6 +5,7 @@ from core import wikipedia_worker
 class Algorithm:
 	zeroedit = False
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"poisti toimimattoman tiedostolinkin",
@@ -15,8 +16,6 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
 
 		filelinks = []
 		for line in text.split("\n"):
@@ -47,5 +46,5 @@ class Algorithm:
 			if data[2] == "":
 				text = text.replace(file, "")
 				self.error_count += 1
-		text = parser.deparse(text)
+
 		return text, self.error_count

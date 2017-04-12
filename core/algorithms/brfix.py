@@ -4,6 +4,7 @@ from core.algcore import *
 class Algorithm:
 	zeroedit = False
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"korjasi br tagin syntaksin tai korvasi sen {{clear}} mallineella",
@@ -14,8 +15,6 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
 		errorlist = re.findall(r"\<.*?\>", text)
 		nono = ['abbr', 'wbr', 'ref', '<!--']
 		for item in errorlist:
@@ -37,5 +36,4 @@ class Algorithm:
 					text = text.replace(item, '<br>')
 					self.error_count += 1
 
-		text = parser.deparse(text)
 		return text, self.error_count

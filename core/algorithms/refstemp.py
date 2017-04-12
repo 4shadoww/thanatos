@@ -4,6 +4,7 @@ from core.algcore import *
 class Algorithm:
 	zeroedit = True
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"muutti {{viitteet}} mallineen muotoon {{Viitteet}}",
@@ -16,8 +17,7 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
+
 		if text.count("<ref/>") < 1 and "{{"+getwordlc("refs")+"|sarakkeet}}" in text and "{{"+getword("refs")+"|sarakkeet}}" in text:
 			self.error_count = 1
 			text = text.replace("{{"+getwordlc("refs")+"|sarakkeet}}", "{{"+getword("refs")+"}}")
@@ -29,5 +29,5 @@ class Algorithm:
 			self.error_count += text.count("{{"+getwordlc("refs")+"|")
 			text = text.replace("{{"+getwordlc("refs")+"}}", "{{"+getword("refs")+"}}")
 			text = text.replace("{{"+getwordlc("refs")+"|", "{{"+getword("refs")+"|")
-		text = parser.deparse(text)
+
 		return text, self.error_count

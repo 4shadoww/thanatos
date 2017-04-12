@@ -3,6 +3,7 @@ from core.algcore import *
 class Algorithm:
 	zeroedit = False
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"siirsi \"Katso myös\" -osion oikeaan kohtaan",
@@ -17,8 +18,6 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
 
 		srclist = ["*", "{{IMDb-h", "#",
 		getwordlc("bref"), getword("bref"),
@@ -50,5 +49,5 @@ class Algorithm:
 			text[titleline(getword("srcs"), '\n'.join(text))] = n1+seealsoec+"\n\n"+text[titleline(getword("srcs"), '\n'.join(text))]
 			text = '\n'.join(text)
 			self.error_count += 1
-		text = parser.deparse(text)
+
 		return text, self.error_count

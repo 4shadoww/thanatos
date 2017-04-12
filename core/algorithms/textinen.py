@@ -4,6 +4,7 @@ import re
 class Algorithm:
 	zeroedit = True
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"muutti englanninkielisen termin suomenkieliseksi",
@@ -14,8 +15,6 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
 
 		self.error_count += text.count("[[Category:")
 		self.error_count += text.count("[[category:")
@@ -32,5 +31,4 @@ class Algorithm:
 		text = text.replace("[[category:", "[["+getwordc("cat")).replace("[[file:", "[["+getwordc("file")).replace("[[image:", "[["+getwordc("img"))
 		text = text.replace("{{Reflist", "{{"+getword("refs")).replace("{{reflist", "{{"+getword("refs")).replace("{{Reflist|", "{{"+getword("refs")+"|").replace("{{reflist|", "{{"+getword("refs")+"|")
 
-		text = parser.deparse(text)
 		return text, self.error_count

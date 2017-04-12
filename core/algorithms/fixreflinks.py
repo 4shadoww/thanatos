@@ -5,6 +5,7 @@ import html
 class Algorithm:
 	zeroedit = False
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"korjasi linkin",
@@ -18,8 +19,6 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
 		linkpartlist = []
 		fixedlinks = []
 		invalidlinks = []
@@ -106,5 +105,5 @@ class Algorithm:
 			i =  html.unescape(str(invalidlink))
 			f = html.unescape(str(fixedlink))
 			text = text.replace(i, f)
-		text = parser.deparse(text)
+
 		return text, self.error_count

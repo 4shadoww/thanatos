@@ -3,6 +3,7 @@ from core.algcore import *
 class Algorithm:
 	zeroedit = True
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": u"poisti wikipedian sisäisestä linkistä tekstin jossa se on sama kuin linkki",
@@ -15,8 +16,6 @@ class Algorithm:
 		self.error_count = 0
 
 	def run(self, text, article):
-		parser = wtparser.Parser()
-		text = parser.parse(text)
 		searchtext = text.replace(' ', '_')
 		twobrackets = re.findall(r"\[(\S+?)\]", searchtext )
 
@@ -35,5 +34,5 @@ class Algorithm:
 					originalitem = originalitem.replace('_', ' ')
 					log('fixpiped invalid links found: '+article+'\n'+originalitem+'] --> '+fixeditem+']')
 					text = text.replace(str(originalitem), str(fixeditem))
-		text = parser.deparse(text)
+
 		return text, self.error_count

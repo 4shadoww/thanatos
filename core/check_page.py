@@ -7,9 +7,11 @@ from core import create_comment
 import traceback
 from core import warning
 from core import log
+from core import wtparser
 
 def run(text, page, algorithms):
 	try:
+		parser = wtparser.Parser()
 		zeroedit = True
 		edit_comments = []
 		comments = ""
@@ -18,6 +20,10 @@ def run(text, page, algorithms):
 			return text, comments, zeroedit
 		for algorithm in algorithms:
 			algorithm.__init__()
+
+			if algorithm.parse:
+				text = parser.parse(text)
+
 			data = algorithm.run(text, page)
 
 			if data[1] == 1 and algorithm.comments[config.lang+"0"] not in edit_comments and text != data[0]:
@@ -36,7 +42,10 @@ def run(text, page, algorithms):
 				zeroedit = False
 
 			text = data[0]
+			if algorithm.parse:
+				text = parser.deparse(text)
 
+		parser.clear()
 		comments = create_comment.comment(edit_comments)
 		return text, comments, zeroedit
 	except:

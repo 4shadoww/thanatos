@@ -3,6 +3,7 @@ from core.algcore import *
 class Algorithm:
 	zeroedit = False
 	error_count = 0
+	parse = True
 
 	comments = {
 		"fi0": "uudelleen nimesi parametrin",

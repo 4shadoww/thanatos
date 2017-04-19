@@ -36,9 +36,6 @@ def run(text, page, algorithms):
 				edit_comments.append(algorithm.comments[config.lang+"1"])
 
 			if algorithm.zeroedit == False and text != data[0]:
-				print(algorithm)
-				print(data[0])
-				print()
 				zeroedit = False
 
 			text = data[0]

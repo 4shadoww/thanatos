@@ -25,6 +25,8 @@ algorithms = ["ucc", "brfix",
 	"fixpiped", "fixreflist", "replacecomms", "replacesrc", "replaceseealso",
 	"replaceli",]
 
+algorithms1 = ["template_modifier"]
+
 # Cat adder
 #algorithms = ["catadder"]
 

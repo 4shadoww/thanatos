@@ -258,7 +258,7 @@ def insec(string, secn, text):
 	text = text.split("\n")
 	secs = getsec(text)
 	for sec in secs:
-		if string in '\n'.join(sec) and sec[0].replace("==", "") == secn:
+		if string in '\n'.join(sec) and sec[0].replace("==", "").lstrip().rstrip() == secn:
 			return True
 	return False
 

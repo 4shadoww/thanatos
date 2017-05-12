@@ -16,7 +16,7 @@ from core import colors
 from core.log import *
 from core import warning
 
-test_algorithms = ["template_modifier",]
+test_algorithms = ["replacecomms",]
 
 test_algorithms1 = ["ucc", "brfix",
 	"centerfix", "smallfix", "titlechanger",

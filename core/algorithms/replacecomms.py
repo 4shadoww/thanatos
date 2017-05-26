@@ -12,7 +12,9 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, text, article):
+	def run(self, page):
+		text = page.text
+
 		template = None
 		if "{{commonscat|" in text and titlein(getword("exl"), text) and not insec("{{commonscat|", getword("exl"), text) or "{{Commonscat|" in text and titlein(getword("exl"), text) and not insec("{{Commonscat|", getword("exl"), text):
 			text = text.split("\n")

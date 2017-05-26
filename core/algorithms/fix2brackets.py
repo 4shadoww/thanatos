@@ -15,7 +15,8 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, text, article):
+	def run(self, page):
+		text = page.text
 
 		nono = [getwordc("file"), getwordc("file", lang="en"), getwordc("img"), getwordc("img", lang="en")]
 

@@ -13,7 +13,8 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, text, article):
+	def run(self, page):
+		text = page.text
 
 		text = text.split("\n")
 		for l in range(0, len(text)):

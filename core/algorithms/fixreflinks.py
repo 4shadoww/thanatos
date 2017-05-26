@@ -18,7 +18,9 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, text, article):
+	def run(self, page):
+		text = page.text
+
 		linkpartlist = []
 		fixedlinks = []
 		invalidlinks = []
@@ -54,7 +56,7 @@ class Algorithm:
 									else:
 										finallink = finallink+item
 								link = '<ref>[http://'+finallink+'</ref>'
-								log('fixreflink invalid link found: '+article+'\n'+orglink+' --> '+link)
+								log('fixreflink invalid link found: '+page.title()+'\n'+orglink+' --> '+link)
 								fixedlinks.append(link)
 								invalidlinks.append(orglink)
 							else:
@@ -63,7 +65,7 @@ class Algorithm:
 					else:
 						link = link.replace('[','')
 						link = '<ref>[http://'+link+'</ref>'
-						log('fixreflink invalid link found: '+article+'\n'+orglink+' --> '+link)
+						log('fixreflink invalid link found: '+page.title()+'\n'+orglink+' --> '+link)
 						fixedlinks.append(link)
 						invalidlinks.append(orglink)
 				else:
@@ -87,7 +89,7 @@ class Algorithm:
 									else:
 										finallink = finallink+item
 								link = '<ref>http://'+finallink+'</ref>'
-								log('fixreflink invalid link found: '+article+'\n'+orglink+' --> '+link)
+								log('fixreflink invalid link found: '+page.title()+'\n'+orglink+' --> '+link)
 								fixedlinks.append(link)
 								invalidlinks.append(orglink)
 
@@ -96,7 +98,7 @@ class Algorithm:
 
 					else:
 						link = '<ref>http://'+link+'</ref>'
-						log('fixreflink invalid link found: '+article+'\n'+orglink+' --> '+link)
+						log('fixreflink invalid link found: '+page.title()+'\n'+orglink+' --> '+link)
 						fixedlinks.append(link)
 						invalidlinks.append(orglink)
 

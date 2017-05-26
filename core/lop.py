@@ -329,3 +329,10 @@ def remove_ending(ending, string):
 	if string.endswith(ending):
 		string = string[:-len(ending)]
 	return string
+
+def isInt(str):
+	try:
+		int(str)
+		return True
+	except ValueError:
+		return False

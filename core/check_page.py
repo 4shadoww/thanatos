@@ -9,42 +9,41 @@ from core import warning
 from core import log
 from core import wtparser
 
-def run(text, page, algorithms):
+def run(page, algorithms):
 	try:
 		parser = wtparser.Parser()
 		zeroedit = True
 		edit_comments = []
 		comments = ""
-		if warning.precheck(text, str(page)):
+		if warning.precheck(page.text, str(page)):
 			log.addwarpage(page.title())
-			return text, comments, zeroedit
+			return page.text, comments, zeroedit
 		for algorithm in algorithms:
 			algorithm.__init__()
 
 			if algorithm.parse:
-				text = parser.parse(text)
+				page.text = parser.parse(page.text)
+			data = algorithm.run(page)
 
-			data = algorithm.run(text, page)
-
-			if data[1] == 1 and algorithm.comments[config.lang+"0"] not in edit_comments and text != data[0]:
+			if data[1] == 1 and algorithm.comments[config.lang+"0"] not in edit_comments and page.text != data[0]:
 				edit_comments.append(algorithm.comments[config.lang+"0"])
 
-			elif data[1] > 1 and config.lang+"1" not in algorithm.comments and text != data[0]:
+			elif data[1] > 1 and config.lang+"1" not in algorithm.comments and page.text != data[0]:
 				edit_comments.append(algorithm.comments[config.lang+"0"])
 
-			elif data[1] > 1 and algorithm.comments[config.lang+"1"] not in edit_comments and text != data[0]:
+			elif data[1] > 1 and algorithm.comments[config.lang+"1"] not in edit_comments and page.text != data[0]:
 				edit_comments.append(algorithm.comments[config.lang+"1"])
 
-			if algorithm.zeroedit == False and text != data[0]:
+			if algorithm.zeroedit == False and page.text != data[0]:
 				zeroedit = False
 
-			text = data[0]
+			newtext = data[0]
 			if algorithm.parse:
-				text = parser.deparse(text)
+				newtext = parser.deparse(newtext)
 
 		parser.clear()
 		comments = create_comment.comment(edit_comments)
-		return text, comments, zeroedit
+		return newtext, comments, zeroedit
 	except:
 		print("unexcepted error:")
 		traceback.print_exc()

@@ -15,7 +15,8 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, text, article):
+	def run(self, page):
+		text = page.text
 
 		brackets = re.findall(r"\[(.*?)\]", text)
 		for item in brackets:
@@ -24,7 +25,7 @@ class Algorithm:
 				olditem = '['+item+']]'
 				item = '['+item+']]'
 				item = item.replace('||', '|')
-				log('twovlines invalid link found: '+article+'\n'+olditem+' --> '+item)
+				log('twovlines invalid link found: '+page.title()+'\n'+olditem+' --> '+item)
 				text = text.replace(olditem, item)
 
 		return text, self.error_count

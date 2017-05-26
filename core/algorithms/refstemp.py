@@ -16,7 +16,8 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, text, article):
+	def run(self, page):
+		text = page.text
 
 		if text.count("<ref/>") < 1 and "{{"+getwordlc("refs")+"|sarakkeet}}" in text and "{{"+getword("refs")+"|sarakkeet}}" in text:
 			self.error_count = 1

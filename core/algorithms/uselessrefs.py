@@ -13,7 +13,9 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, text, article):
+	def run(self, page):
+		text = page.text
+
 		nono = ["{{iihfranking"]
 		if text.count("<ref/>") == 0 and text.count("<ref />") == 0 and text.count("<ref>") == 0:
 			self.error_count += 1

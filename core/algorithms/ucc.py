@@ -7,7 +7,7 @@ class Algorithm:
 	zeroedit = False
 	error_count = 0
 	parse = True
-	
+
 	comments = {
 		"fi0": u"muunsi [[unicode|unicode-syntaksin]] unicode merkeiksi",
 	}
@@ -15,7 +15,8 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self,text, article):
+	def run(self, page):
+		text = page.text
 
 		newtext = html.unescape(text)
 		if newtext != text:

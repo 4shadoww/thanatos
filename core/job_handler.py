@@ -66,12 +66,11 @@ def page_handler(algorithms, pageobjects, pageloader):
 	num = 0
 	while True:
 		try:
-			printlog("checking: "+str(pageobjects[num][1]))
-
-			data = check_page.run(pageobjects[num][2], pageobjects[num][3], algorithms)
+			printlog("checking: "+str(pageobjects[num]))
+			data = check_page.run(pageobjects[num], algorithms)
 
 			if data[2] == False:
-				save_page(pageobjects[num][1], pageobjects[num][2], data[0], data[1])
+				save_page(pageobjects[num], pageobjects[num].text, data[0], data[1])
 
 			if num == len(pageobjects)-1 and pageloader.running == False:
 				break
@@ -118,12 +117,11 @@ def check_pages(pages):
 
 
 def save_page(wpage, text, newtext, comments):
-	if text == '':
+	if text == "":
 		printlog("error: this page is empty or it doesn't exist")
 		return
 	if comments == None:
 		comments = "thanatos bot edit"
-
 	if newtext != text:
 		if config.review == True:
 			if not config.pass_warnings and len(warnings) > 0 or not config.pass_warnings and  warning.check(newtext, str(wpage)):

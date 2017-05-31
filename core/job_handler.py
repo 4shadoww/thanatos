@@ -69,7 +69,7 @@ def page_handler(algorithms, pageobjects, pageloader):
 			printlog("checking: "+str(pageobjects[num]))
 			data = check_page.run(pageobjects[num], algorithms)
 
-			if data[2] == False:
+			if not data[2]:
 				save_page(pageobjects[num], pageobjects[num].text, data[0], data[1])
 
 			if num == len(pageobjects)-1 and pageloader.running == False:

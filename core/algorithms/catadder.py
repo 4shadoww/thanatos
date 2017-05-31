@@ -15,8 +15,7 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, page):
-		text = page.text
+	def run(self, page, text):
 
 		for cat in self.cats:
 			if cat not in text:

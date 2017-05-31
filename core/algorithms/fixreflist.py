@@ -167,8 +167,7 @@ class Algorithm:
 			self.comments[config.lang+"0"] = self.comments[config.lang+"03"]
 		return text
 
-	def run(self, page):
-		text = page.text
+	def run(self, page, text):
 		article = page.title()
 
 		nono = ["<references/>", "<references />", "<references>",

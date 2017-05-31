@@ -17,8 +17,7 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, page):
-		text = page.text
+	def run(self, page, text):
 		target = "http://www.eurohockey.net/players/show_player.cgi?serial="
 		newlink = "http://www.eurohockey.com/player/"
 

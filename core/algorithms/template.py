@@ -13,7 +13,5 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, page):
-		text = page.text
-
+	def run(self, page, text):
 		return text, self.error_count

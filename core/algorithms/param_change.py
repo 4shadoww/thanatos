@@ -46,9 +46,7 @@ class Algorithm:
 				template[1][param] = int(template[1][param]) + 123
 		return template
 
-	def run(self, page):
-		text = page.text
-
+	def run(self, page, text):
 		templates = findtemplates(text)
 		for template in templates:
 			try:

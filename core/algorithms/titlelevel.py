@@ -13,9 +13,7 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, page):
-		text = page.text
-
+	def run(self, page, text):
 		text = text.split("\n")
 		for l in range(0, len(text)):
 			if istitle(text[l]) and text[l].count("=") <= 2:

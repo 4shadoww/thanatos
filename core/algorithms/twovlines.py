@@ -15,9 +15,7 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, page):
-		text = page.text
-
+	def run(self, page, text):
 		brackets = re.findall(r"\[(.*?)\]", text)
 		for item in brackets:
 			if '||' in item and getword("img") not in item and getword("file")  not in item and 'Image:' not in item and 'File:' not in item:

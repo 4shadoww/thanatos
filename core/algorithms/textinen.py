@@ -14,9 +14,7 @@ class Algorithm:
 	def __init__(self):
 		self.error_count = 0
 
-	def run(self, page):
-		text = page.text
-
+	def run(self, page, text):
 		self.error_count += text.count("[[Category:")
 		self.error_count += text.count("[[category:")
 		self.error_count += text.count("[[File:")

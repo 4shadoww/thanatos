@@ -5,7 +5,7 @@ lang = "fi"
 enable_log = False
 
 # Review mode
-review = True
+review = False
 
 # Don't send changes to wikipedia
 test = False
@@ -17,7 +17,7 @@ pass_warnings = True
 log_warnings = False
 
 # Algorithms execute order
-algorithms = ["ucc", "brfix",
+algorithms1 = ["ucc", "brfix",
 	"centerfix", "smallfix", "titlechanger",
 	"textinen", "seealsotoexl", "twovlines",
 	"typofix", "reftosrc", "titlelevel",
@@ -28,7 +28,7 @@ algorithms = ["ucc", "brfix",
 algorithms0 = ["url_fixer"]
 
 # Cat adder
-#algorithms = ["catadder"]
+algorithms = ["catadder"]
 
 # Ignore algorithms
 ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker"]

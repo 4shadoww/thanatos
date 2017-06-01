@@ -10,12 +10,16 @@ class Algorithm:
 		"fi1": u"lisäsi luokkat",
 	}
 
-	cats = ["Luokka:Botin luomat artikkelit"]
+	cats = []
 
 	def __init__(self):
 		self.error_count = 0
 
 	def run(self, page, text):
+		self.cats = ["Luokka:"+page.title()[0:len(page.title())-2]+"0"*2+"-luku"]
+
+		if "[[Luokka:" in text:
+			return text, self.error_count
 
 		for cat in self.cats:
 			if cat not in text:

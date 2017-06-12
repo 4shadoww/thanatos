@@ -10,7 +10,7 @@ import pywikibot
 from pywikibot import pagegenerators
 
 # Pages per file
-limit = 500
+limit = 2000
 
 output = "core/articles/newpages.txt"
 

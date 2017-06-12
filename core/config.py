@@ -17,7 +17,7 @@ pass_warnings = True
 log_warnings = False
 
 # Algorithms execute order
-algorithms1 = ["ucc", "brfix",
+algorithms = ["ucc", "brfix",
 	"centerfix", "smallfix", "titlechanger",
 	"textinen", "seealsotoexl", "twovlines",
 	"typofix", "reftosrc", "titlelevel",
@@ -25,10 +25,8 @@ algorithms1 = ["ucc", "brfix",
 	"fixpiped", "fixreflist", "replacecomms", "replacesrc", "replaceseealso",
 	"replaceli",]
 
-algorithms0 = ["url_fixer"]
-
 # Cat adder
-algorithms = ["catadder"]
+#algorithms = ["catadder"]
 
 # Ignore algorithms
 ignore = ["typofix", "ucc", "fixblinks", "fixreflinks", "filedelinker"]

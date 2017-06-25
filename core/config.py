@@ -5,7 +5,7 @@ lang = "fi"
 enable_log = False
 
 # Review mode
-review = False
+review = True
 
 # Don't send changes to wikipedia
 test = False

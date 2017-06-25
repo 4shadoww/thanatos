@@ -36,7 +36,7 @@ class Algorithm:
 		nono = ["[["+getwordc("cat"), "{{Tynkä", "{{tynkä", "{{AAKKOSTUS", "{{DEFAULTSORT", "{{OLETUSAAKKOSTUS"]
 
 		feed = listend(text, getword("srcs"), srclist, nono)
-		print(feed)
+
 		if tagwithoutend('\n'.join(text[feed[0]:feed[1]])):
 			warning(self.warnings[config.lang+"01"])
 

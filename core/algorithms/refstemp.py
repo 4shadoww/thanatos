@@ -7,10 +7,10 @@ class Algorithm:
 	parse = True
 
 	comments = {
-		"fi0": u"muutti {{viitteet}} mallineen muotoon {{Viitteet}}",
-		"fi1": u"muutti {{viitteet}} mallineen muotoon {{Viitteet}}",
-		"fi00": u"muutti {{viitteet}} mallineen muotoon {{Viitteet}}",
-		"fi01": u"muutti {{Viitteet|sarakkeet}} mallineen muotoon {{Viitteet}}",
+		"fi0": u"muutti {{viitteet}} -mallineen muotoon {{Viitteet}}",
+		"fi1": u"muutti {{viitteet}} -mallineen muotoon {{Viitteet}}",
+		"fi00": u"muutti {{viitteet}} -mallineen muotoon {{Viitteet}}",
+		"fi01": u"muutti {{Viitteet|sarakkeet}} -mallineen muotoon {{Viitteet}}",
 	}
 
 	def __init__(self):

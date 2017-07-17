@@ -6,7 +6,7 @@ class Algorithm:
 	parse = True
 
 	comments = {
-		"fi0": u"siirsi Commonscat mallineen \"Aiheesta muualla\" -osioon",
+		"fi0": u"siirsi Commonscat -mallineen \"Aiheesta muualla\" -osioon",
 	}
 
 	def __init__(self):

@@ -6,7 +6,7 @@ class Algorithm:
 	parse = True
 
 	comments = {
-		"fi0": u"poisti turhan Viitteet tai Lähteet osion",
+		"fi0": u"poisti turhan \"Viitteet\" tai \"Lähteet\" -osion",
 		"en0": u"removed useless References section",
 	}
 

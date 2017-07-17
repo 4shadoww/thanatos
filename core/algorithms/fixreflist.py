@@ -9,7 +9,7 @@ class Algorithm:
 	comments = {
 		"fi0": u"",
 		"fi00": u"lisäsi puuttuvan \"Viitteet\" -osion",
-		"fi01": u"lisäsi puuttuvan \"Viitteet\" mallineen",
+		"fi01": u"lisäsi puuttuvan \"Viitteet\" -mallineen",
 		"fi02": u"lisäsi puuttuvan \"Lähteet\" -osion",
 		"fi03": u"siirsi \"Viitteet\" -osion oikeaan kohtaan",
 	}
